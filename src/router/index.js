@@ -53,6 +53,12 @@ export const asyncRouterMap = [
     meta: { title: 'Example', icon: 'example' },
     children: [
       {
+        path: 'index',
+        name: 'Index',
+        component: () => import('@/views/homePage/index'),
+        meta: { title: 'Table', icon: 'table' }
+      },
+      {
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),

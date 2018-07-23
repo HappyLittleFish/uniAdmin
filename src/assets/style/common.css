@@ -1,0 +1,80 @@
+/* 字体大小 */
+.font-size_xxs {
+  font-size: 10px;
+}
+
+.font-size_xs {
+  font-size: 12px;
+}
+
+.font-size_sm {
+  font-size: 14px;
+}
+
+.font-size_md {
+  font-size: 16px;
+}
+
+.font-size_lg {
+  font-size: 18px;
+}
+
+.font-size_xl {
+  font-size: 20px;
+}
+
+.font-size_xxl {
+  font-size: 22px;
+}
+
+/* 字体颜色 */
+.font-white {
+  color: #FFFFFF;
+}
+
+.font-black {
+	color: #000000;
+}
+
+.font-primary {
+	color: #48A5D5;
+}
+
+.font-disable {
+	color: gray;
+}
+
+/* 填充 */
+.padding-xxs {
+	padding: 2px;
+}
+.padding-xs {
+	padding: 4px;
+}
+.padding-sm {
+	padding: 6px;
+}
+.padding-md {
+	padding: 8px;
+}
+.padding-lg {
+	padding: 10px;
+}
+.padding-xl {
+	padding: 12px;
+}
+
+/* 浮动 */
+.iv-f-l {
+	float: left;
+	margin-left: 10px;
+}
+.iv-f-r {
+	float: right;
+	margin-right: 10px;
+}
+
+.iv-clear {
+	clear: both;
+}
+

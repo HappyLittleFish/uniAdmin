@@ -7,7 +7,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
 import '@/styles/index.scss' // global css
+import './assets/style/common.css'
 
+import axios from './api/api'
 import App from './App'
 import router from './router'
 import store from './store'
@@ -18,7 +20,7 @@ import '@/permission' // permission control
 Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
-
+Object.defineProperty(Vue.prototype, '$axios', { value: axios })
 new Vue({
   el: '#app',
   router,

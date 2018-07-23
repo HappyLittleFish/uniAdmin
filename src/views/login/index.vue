@@ -1,12 +1,13 @@
 <template>
   <div class="login-container">
-    <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
-      <h3 class="title">vue-element-admin</h3>
+    <el-form class="login-form" autoComplete="on" :model="loginForm"  ref="loginForm" label-position="left">
+      <!-- :rules="loginRules" -->
+      <h3 class="title">Uniiia-admin</h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user" />
         </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
+        <el-input name="username" type="text" v-model="loginForm.userName" autoComplete="on" placeholder="username" />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
@@ -18,46 +19,46 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
-          Sign in
+          登录
         </el-button>
       </el-form-item>
-      <div class="tips">
+      <!-- <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
         <span> password: admin</span>
-      </div>
+      </div> -->
     </el-form>
   </div>
 </template>
 
 <script>
-import { isvalidUsername } from '@/utils/validate'
+// import { isvalidUsername } from '@/utils/validate'
 
 export default {
   name: 'login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
-        callback(new Error('请输入正确的用户名'))
-      } else {
-        callback()
-      }
-    }
-    const validatePass = (rule, value, callback) => {
-      if (value.length < 5) {
-        callback(new Error('密码不能小于5位'))
-      } else {
-        callback()
-      }
-    }
+    // const validateUsername = (rule, value, callback) => {
+    //   if (value) {
+    //     callback(new Error('请输入正确的用户名'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
+    // const validatePass = (rule, value, callback) => {
+    //   if (value.length < 5) {
+    //     callback(new Error('密码不能小于5位'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     return {
       loginForm: {
-        username: 'admin',
-        password: 'admin'
+        userName: '',
+        password: ''
       },
-      loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }]
-      },
+      // loginRules: {
+      //   username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+      //   password: [{ required: true, trigger: 'blur', validator: validatePass }]
+      // },
       loading: false,
       pwdType: 'password'
     }
@@ -71,18 +72,39 @@ export default {
       }
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('Login', this.loginForm).then(() => {
-            this.loading = false
-            this.$router.push({ path: '/' })
-          }).catch(() => {
-            this.loading = false
+      // this.$refs.loginForm.validate(valid => {
+      //   if (valid) {
+      //     this.loading = true
+      //     this.$store.dispatch('Login', this.loginForm).then(() => {
+      //       this.loading = false
+      //       this.$router.push({ path: '/' })
+      //     }).catch(() => {
+      //       this.loading = false
+      //     })
+      //   } else {
+      //     console.log('error submit!!')
+      //     return false
+      //   }
+      // })
+      const params = {
+        userName: this.loginForm.userName,
+        userPwd: this.loginForm.password
+      }
+      // const that = this
+      this.$axios.post('sys/login', params).then(response => {
+        if (response !== null) {
+          console.log(response.data.token)
+          this.$store.dispatch('setUserName', response.data.user.userName)
+          this.$store.dispatch('setToken', response.data.token)
+          this.$router.push({ name: 'Example' })
+          this.$axios.post('management/study/exam/type/list', { pageNo: 1, pageSize: 20 }).then(response => {
+            if (response === null) return
+            // that.$Message.success('登录成功')
+            // that.$store.dispatch('setSubjectTypes', response.data.subjectTypeList)
           })
         } else {
-          console.log('error submit!!')
-          return false
+          // console.log(response)
+          // this.$Message.error(response.status.msg)
         }
       })
     }
