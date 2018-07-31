@@ -2,10 +2,10 @@
  * Created by jiachenpan on 16/11/18.
  */
 
-// export function isvalidUsername(str) {
-//   const valid_map = ['admin', 'editor']
-//   return valid_map.indexOf(str.trim()) >= 0
-// }
+export function isvalidUsername(str) {
+  const valid_map = ['admin', 'uni']
+  return valid_map.indexOf(str.trim()) <= 0
+}
 
 /* 合法uri*/
 export function validateURL(textval) {
@@ -30,4 +30,3 @@ export function validatAlphabets(str) {
   const reg = /^[A-Za-z]+$/
   return reg.test(str)
 }
-
