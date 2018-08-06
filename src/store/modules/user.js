@@ -8,7 +8,9 @@ const user = {
     // token: '',
     name: '',
     avatar: '',
-    roles: []
+    roles: [],
+    userName: '',
+    userPhoto: ''
   },
 
   mutations: {
@@ -53,7 +55,7 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
-          const data = response.data
+          const data = response.data.data
           console.log('用户信息', data)
           commit('SET_TOKEN', data.token)
           setToken(data.token)

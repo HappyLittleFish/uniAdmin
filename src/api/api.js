@@ -4,7 +4,7 @@ import ElementUI from 'element-ui'
 import router from '../router/index'
 
 const $axios = axios.create({
-  baseURL: process.env.BASE_URL,
+  baseURL: process.env.BASE_API,
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json; charset=UTF-8'

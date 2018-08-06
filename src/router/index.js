@@ -45,47 +45,47 @@ export default new Router({
 })
 
 export const asyncRouterMap = [
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { roles: ['all'], title: 'haha', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { roles: ['all'], title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { roles: ['all'], title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-  {
-    path: '/activity',
-    component: Layout,
-    name: 'Activity',
-    meta: { roles: ['admin'], title: 'Activity' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { roles: ['all'], title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { roles: ['all'], title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: '/example/table',
+  //   name: 'Example',
+  //   meta: { roles: ['all'], title: 'haha', icon: 'example' },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: () => import('@/views/table/index'),
+  //       meta: { roles: ['all'], title: 'Table', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { roles: ['all'], title: 'Tree', icon: 'tree' }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/activity',
+  //   component: Layout,
+  //   name: 'Activity',
+  //   meta: { roles: ['admin'], title: 'Activity' },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: () => import('@/views/table/index'),
+  //       meta: { roles: ['all'], title: 'Table', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { roles: ['all'], title: 'Tree', icon: 'tree' }
+  //     }
+  //   ]
+  // },
   {
     path: '/table',
     component: Layout,
@@ -101,7 +101,7 @@ export const asyncRouterMap = [
       // { path: 'inline-edit-table', component: () => import('@/views/table/inlineEditTable'), name: 'inlineEditTable', meta: { title: 'inlineEditTable' }},
       // { path: 'tree-table', component: () => import('@/views/table/treeTable/treeTable'), name: 'treeTableDemo', meta: { title: 'treeTable' }},
       // { path: 'custom-tree-table', component: () => import('@/views/table/treeTable/customTreeTable'), name: 'customTreeTableDemo', meta: { title: 'customTreeTable' }},
-      { path: 'complex-table', component: () => import('@/views/table/complexTable'), name: 'complexTable', meta: { title: 'complexTable' }}
+      { path: 'complex-table', component: () => import('@/views/activity/activityTable'), name: 'complexTable', meta: { title: '活动管理' }}
     ]
   },
   // {

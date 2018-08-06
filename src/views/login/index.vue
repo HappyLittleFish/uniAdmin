@@ -76,6 +76,7 @@ export default {
           this.loading = true
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = true
+            console.log('登录成功')
             this.$router.push({ path: '/' })
           }).catch(() => {
             this.loading = false
@@ -135,7 +136,7 @@ $light_gray:#eee;
   background: url('/static/images/bg.jpg') no-repeat;
   background-size: cover;
   // background-size: 100% auto;
-  // background-color: $bg;
+  background-color: #889aa4;
   .login-form {
     position: absolute;
     left: 0;
