@@ -31,7 +31,13 @@ export const constantRouterMap = [
     redirect: '/dashboard',
     name: 'Dashboard',
     hidden: true,
+    meta: {
+      title: '面板'
+    },
     children: [{
+      meta: {
+        title: '首页'
+      },
       path: 'dashboard',
       component: () => import('@/views/dashboard/index')
     }]
@@ -87,12 +93,12 @@ export const asyncRouterMap = [
   //   ]
   // },
   {
-    path: '/table',
+    path: '/activity',
     component: Layout,
-    redirect: '/table/complex-table',
-    name: 'table',
+    redirect: '/activityManage',
+    name: 'activity',
     meta: {
-      title: 'Table',
+      title: '运营活动',
       icon: 'table'
     },
     children: [
@@ -101,7 +107,8 @@ export const asyncRouterMap = [
       // { path: 'inline-edit-table', component: () => import('@/views/table/inlineEditTable'), name: 'inlineEditTable', meta: { title: 'inlineEditTable' }},
       // { path: 'tree-table', component: () => import('@/views/table/treeTable/treeTable'), name: 'treeTableDemo', meta: { title: 'treeTable' }},
       // { path: 'custom-tree-table', component: () => import('@/views/table/treeTable/customTreeTable'), name: 'customTreeTableDemo', meta: { title: 'customTreeTable' }},
-      { path: 'complex-table', component: () => import('@/views/activity/activityTable'), name: 'complexTable', meta: { title: '活动管理' }}
+      { path: 'activityManage', component: () => import('@/views/activity/activityManage'), name: 'activityManage', meta: { title: '活动管理' }},
+      { path: 'awardManage', component: () => import('@/views/activity/awardManage'), name: 'awardManage', meta: { title: '奖品管理' }}
     ]
   },
   // {
