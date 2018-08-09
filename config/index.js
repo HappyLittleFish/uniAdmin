@@ -11,13 +11,10 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      "/api/*": {
-        target: 'https://cmst.unifin.com.cn',
-        secure: false
-        // pathRewrite: {
-        //   '^/api': ''
-        // }
-      }
+      // "/api/*": {
+      //   target: 'https://cmst.unifin.com.cn/',
+      //   secure: false
+      // }
     },
 
     // Various Dev Server settings
