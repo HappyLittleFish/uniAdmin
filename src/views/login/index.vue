@@ -17,7 +17,7 @@
           <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
+        <el-button type="primary" class="el-btn-login" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
           Sign in
         </el-button>
       </el-form-item>
@@ -134,15 +134,17 @@ $light_gray:#eee;
   height: 100%;
   width: 100%;
   background: url('/static/images/bg.jpg') no-repeat;
-  background-size: cover;
-  // background-size: 100% auto;
+  // background-size: cover;
+  background-size: 100% 100%;
   background-color: #889aa4;
   .login-form {
     position: absolute;
     left: 0;
     right: 0;
     width: 520px;
+    // width: 60%;
     padding: 60px 35px 15px 35px;
+    // padding: 10% 5% 2% 5%;
     margin: 120px auto;
   }
   .tips {
@@ -181,6 +183,32 @@ $light_gray:#eee;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+  }
+}
+@media (min-width: 320px) and (max-width: 640px) {
+  .login-form {
+    padding: 40% 0 0 0 !important;
+    margin: 0px auto !important;
+    width: 70% !important;
+
+    .title {
+      font-size: 20px;
+      margin: 10px auto; 
+      text-align: center !important;
+      width: 80% !important;
+    }
+    .el-btn-login {
+      width: 100% !important;
+    }
+    .el-input {
+      width: 80%;
+    }
+    div.el-input__inner {
+      width: 80% !important;
+    }
+    div.el-form-item__content {
+      width: 60% !important;
+    }
   }
 }
 </style>

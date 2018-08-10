@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 135px;" class="filter-item" :placeholder="$t('table.title')" v-model="listQuery.title">
+      <el-input @keyup.enter.native="handleFilter" class="filter-item filter-item-wap" :placeholder="$t('table.title')" v-model="listQuery.title">
       </el-input>
       <!-- <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" :placeholder="$t('table.importance')">
         <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
@@ -11,13 +11,13 @@
         <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key">
         </el-option>
       </el-select> -->
-      <el-select @change='handleFilter' style="width: 135px" class="filter-item" v-model="listQuery.sort">
-        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key">
+      <el-select @change='handleFilter' class="filter-item filter-item-wap" v-model="listQuery.sort">
+        <el-option class="el-input__inner_wap" v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key">
         </el-option>
       </el-select>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" style="margin-left: 5px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
-      <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">导出</el-button>
+      <el-button class="filter-item" style="margin-left: 5px;" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">导出</el-button>
       <!-- <el-checkbox class="filter-item" style='margin-left:15px;' @change='tableKey=tableKey+1' v-model="showReviewer">{{$t('table.reviewer')}}</el-checkbox> -->
     </div>
 
@@ -65,7 +65,7 @@
           <span v-else>0</span>
         </template>
       </el-table-column> -->
-      <el-table-column class-name="status-col" :label="$t('table.status')" width="100">
+      <el-table-column class-name="status-col" :label="$t('table.status')" width="1rem">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{statusOptions[scope.row.status-1].label}}</el-tag>
           <!-- <el-tag :type="scope.row.status">{{scope.row.status}}</el-tag> -->
@@ -438,11 +438,20 @@ export default {
 }
 </script>
 <style>
-@media only screen and (max-width: 480px) {
+.filter-item {
+  width: 130px;
+}
+@media (min-width: 320px) and (max-width: 640px) {
   .filter-item {
     font-size: 12px;
-    padding: 6px;
+    width: 60px;
+    padding:  10px 6px;
     margin: 0px;
+  }
+  .filter-item-wap {
+    width: 60px ;
+    padding: 0px;
+    margin: 0;
   }
   .el-button {
     margin: 0px;
@@ -451,8 +460,16 @@ export default {
     margin: 0px;
   }
   .el-input__inner {
+    width: 60px;
+    /* height: 30px; */
     font-size: 12px;
-    padding: 0 6px;
+    text-align: center;
+    padding: 0px 4px;
+    margin: 0;
+  } 
+  .el-input__inner_wap {
+    /* width: 60px; */
+    padding: 0 12px;
   }
 }
 </style>
