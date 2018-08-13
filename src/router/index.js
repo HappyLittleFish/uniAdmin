@@ -102,27 +102,24 @@ export const asyncRouterMap = [
       icon: 'table'
     },
     children: [
-      // { path: 'dynamic-table', component: () => import('@/views/table/dynamicTable/index'), name: 'dynamicTable', meta: { title: 'dynamicTable' }},
-      // { path: 'drag-table', component: () => import('@/views/table/dragTable'), name: 'dragTable', meta: { title: 'dragTable' }},
-      // { path: 'inline-edit-table', component: () => import('@/views/table/inlineEditTable'), name: 'inlineEditTable', meta: { title: 'inlineEditTable' }},
-      // { path: 'tree-table', component: () => import('@/views/table/treeTable/treeTable'), name: 'treeTableDemo', meta: { title: 'treeTable' }},
-      // { path: 'custom-tree-table', component: () => import('@/views/table/treeTable/customTreeTable'), name: 'customTreeTableDemo', meta: { title: 'customTreeTable' }},
       { path: 'activityManage', component: () => import('@/views/activity/activityManage'), name: 'activityManage', meta: { title: '活动管理' }},
       { path: 'awardManage', component: () => import('@/views/activity/awardManage'), name: 'awardManage', meta: { title: '奖品管理' }}
     ]
   },
-  // {
-  //   path: '/form',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'Form',
-  //       component: () => import('@/views/form/index'),
-  //       meta: { title: 'Form', icon: 'form' }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/wechatWithdraw',
+    component: Layout,
+    redirect: '/pendingWithdraw',
+    name: 'wechatWithdraw',
+    meta: {
+      title: '微信提现',
+      icon: 'money'
+    },
+    children: [
+      { path: 'pendingWithdraw', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
+      { path: 'withdrawRecord', component: () => import('@/views/wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }}
+    ]
+  },
 
   { path: '*', redirect: '/404', hidden: true }
 ]

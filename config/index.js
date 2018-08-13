@@ -11,10 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // "/api/*": {
-      //   target: 'https://cmst.unifin.com.cn/',
-      //   secure: false
-      // }
+      "/api/*": {
+        target: 'https://cmst.unifin.com.cn/',
+        secure: false,
+        changeOrigin: true
+      }
     },
 
     // Various Dev Server settings

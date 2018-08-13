@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" class="filter-item filter-item-wap" :placeholder="$t('table.title')" v-model="listQuery.title">
+      <el-input @keyup.enter.native="handleFilter" class="filter-item filter-item-wap" placeholder="请输入手机号" v-model="listQuery.title">
       </el-input>
       <!-- <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" :placeholder="$t('table.importance')">
         <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
