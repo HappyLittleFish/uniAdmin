@@ -359,7 +359,13 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          const tempData = Object.assign({}, this.temp)
+          // const tempData = Object.assign({}, this.temp)
+          const tempData = deepClone(this.temp)
+          for (var i = 0; i < this.statusOptions.length; i++) {
+            if (tempData.status === this.statusOptions[i].label) {
+              tempData.status = this.statusOptions[i].value
+            }
+          }
           // tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
           updateActivity(tempData).then(response => {
             if (response === null) return

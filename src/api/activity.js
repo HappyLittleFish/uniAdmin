@@ -1,34 +1,34 @@
 import request from '@/utils/request'
 
-export function getActivityList(config) {
+export function getActivityList(params) {
   return request({
     url: 'management/activity/queryActivityList',
     method: 'post',
-    data: config
+    data: params
   })
 }
 
-export function addActivity(config) {
+export function addActivity(params) {
   return request({
     url: 'management/activity/insertActivity',
     method: 'post',
-    data: config
+    data: params
   })
 }
 
-export function updateActivity(config) {
+export function updateActivity(params) {
   return request({
     url: 'management/activity/updateActivity',
     method: 'post',
-    data: config
+    data: params
   })
 }
 
-export function deleteActivity(config) {
+export function deleteActivity(params) {
   return request({
     url: 'management/activity/removeActivity',
     method: 'post',
-    data: config
+    data: params
   })
 }
 
