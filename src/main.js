@@ -9,7 +9,8 @@ import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 import '@/styles/index.scss' // global css
 import './assets/style/common.css'
 
-import axios from './api/api'
+// import axios from './api/api'
+import axios from './utils/request'
 import App from './App'
 import router from './router'
 import store from './store'
