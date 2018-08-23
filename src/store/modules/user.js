@@ -53,10 +53,11 @@ const user = {
     // 登录
     Login({ commit }, userInfo) {
       const username = userInfo.username.trim()
+      console.log('用户账号密码', userInfo)
       return new Promise((resolve, reject) => {
-        login(username, userInfo.password).then(response => {
-          const data = response.data.data
-          console.log('用户信息', data)
+        login({ userName: username, userPwd: userInfo.password }).then(response => {
+          const data = response.data
+          console.log('用户信息', response)
           commit('SET_TOKEN', data.token)
           setToken(data.token)
           commit('SET_USER_NAME', data.user.userName)

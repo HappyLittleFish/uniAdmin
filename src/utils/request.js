@@ -37,9 +37,9 @@ service.interceptors.response.use(response => {
   /**
   * code为非20000是抛错 可结合自己业务进行修改
   */
+  const resData = response.data
   const resCode = resData.status.code
   const resMsg = resData.status.msg
-  const resData = response.data
   if (resCode === responseStatus.fail) {
     Message({
       message: resMsg,
