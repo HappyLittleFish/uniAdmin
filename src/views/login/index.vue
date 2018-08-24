@@ -1,7 +1,8 @@
 <template>
   <div class="login-container">
+    
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
-      <h3 class="title">Uni管理后台登录</h3>
+      <h3 class="title"> <img src="/static/images/logo.png" alt="" class="logo_img">Uni管理后台登录</h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user" />
@@ -211,4 +212,10 @@ $light_gray:#eee;
     }
   }
 }
+ .logo_img{
+    width: 15%;
+    height: 15%;
+    margin-bottom: -5%;
+    margin-right: 3%;
+  }
 </style>

@@ -79,6 +79,19 @@ export const asyncRouterMap = [
       { path: 'withdrawRecord', component: () => import('@/views/wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }}
     ]
   },
-
+  {
+    path: '/vedioManage',
+    component: Layout,
+    redirect: '/vedioManage',
+    name: 'vedioManage',
+    meta: {
+      title: '视频管理',
+      icon: 'table'
+    },
+    children: [
+      { path: 'vedioList', component: () => import('@/views/vedioManage/vedioList'), name: 'vedioList', meta: { title: '视频系列列表' }},
+      { path: 'withdrawRecord', component: () => import('@/views/wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }, hidden: true }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]

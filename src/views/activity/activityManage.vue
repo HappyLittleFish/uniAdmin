@@ -257,8 +257,8 @@ export default {
       console.log('请求的参数为', this.listQuery)
       getActivityList(this.listQuery).then(response => {
         console.log('list数据为', response)
-        this.list = response.data.list
-        this.total = response.data.total
+        this.list = response.list
+        this.total = response.total
 
         // Just to simulate the time of the request
         setTimeout(() => {
