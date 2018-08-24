@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" class="filter-item filter-item-wap" placeholder="请输入手机号" v-model="listQuery.title">
+      <el-input @keyup.enter.native="handleFilter" class="filter-item filter-item-wap" placeholder="请输入手机号" v-model="listQuery.mobile">
       </el-input>
       <!-- <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" :placeholder="$t('table.importance')">
         <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
@@ -21,7 +21,7 @@
     </div>
 
     <el-table :key='tableKey' :data="list" v-loading="listLoading" border fit highlight-current-row
-      style="width: 100%;min-height:1000px;">
+      style="width: 100%;min-height:500px;">
       <el-table-column align="center" :label="$t('table.id')" width="65">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
@@ -40,12 +40,12 @@
       </el-table-column>
       <el-table-column width="150px" align="center" label="提现金额">
         <template slot-scope="scope">
-          <span>{{scope.row.withdrawAmount / 100}}</span>
+          <span>{{scope.row.withdrawAmount / 100 | formatMoney}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" label="提现时间">
+      <el-table-column width="140px" align="center" label="提现时间">
         <template slot-scope="scope">
-          <span>{{scope.row.withdrawTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+          <span>{{scope.row.updateTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
         </template>
       </el-table-column>
       <!-- <el-table-column width="110px" align="center" label="操作">
@@ -75,7 +75,7 @@
 import { getWechatWithdrawList } from '@/api/wechatWithdraw'
 // import { getWechatWithdrawList, confirmWithdraw } from '@/api/wechatWithdraw'
 import waves from '@/directive/waves' // 水波纹指令
-import { parseTime } from '@/utils'
+import { parseTime, formatMoney } from '@/utils'
 // import { parseTime, deepClone } from '@/utils'
 
 const calendarTypeOptions = [
@@ -115,7 +115,7 @@ export default {
         value: '3',
         label: '驳回'
       }],
-      listQuery: {},
+      listQuery: { withdrawStatusList: [2, 3] },
       showReviewer: false,
       dialogFormVisible: false,
       dialogStatus: '',
@@ -140,6 +140,9 @@ export default {
     },
     typeFilter(type) {
       return calendarTypeKeyValue[type]
+    },
+    formatMoney(money) {
+      return formatMoney(money, 2, '', '', '.')
     }
   },
   created() {
@@ -151,16 +154,16 @@ export default {
     getList() {
       this.listLoading = true
       // console.log('请求的参数为', this.listQuery)
-      getWechatWithdrawList(this.listQuery).then(response => {
+      getWechatWithdrawList(JSON.stringify(this.listQuery)).then(response => {
         console.log('list数据为', response)
-        this.list = response.data.list
+        this.list = response.list
         console.log('list数据是什么', this.list)
         // this.total = response.data.total
 
         // Just to simulate the time of the request
         setTimeout(() => {
           this.listLoading = false
-        }, 1.5 * 1000)
+        }, 0.5 * 1000)
       })
     },
     handleFilter() {

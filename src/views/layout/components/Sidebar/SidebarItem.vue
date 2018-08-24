@@ -1,5 +1,6 @@
 <template>
   <div class="menu-wrapper">
+    <div class="menu-img" v-if="sidebar.opened"></div>
     <template v-for="item in routes" v-if="!item.hidden&&item.children">
 
       <router-link v-if="hasOneShowingChildren(item.children) && !item.children[0].children&&!item.alwaysShow" :to="item.path+'/'+item.children[0].path"
@@ -33,6 +34,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'SidebarItem',
   props: {
@@ -43,6 +45,12 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  computed: {
+    ...mapGetters([
+      'sidebar',
+      'avatar'
+    ])
   },
   methods: {
     hasOneShowingChildren(children) {
@@ -57,3 +65,14 @@ export default {
   }
 }
 </script>
+<style rel="stylesheet/scss" lang="scss" scoped>
+.menu-img {
+  width:80px;
+  height:80px;
+  margin: 0 auto;
+  margin:20px auto;
+  background: url(/static/images/logo.png) no-repeat;
+  background-size: 100% 100%;
+}
+
+</style>

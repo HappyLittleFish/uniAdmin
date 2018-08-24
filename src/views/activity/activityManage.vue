@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" class="filter-item filter-item-wap" :placeholder="$t('table.title')" v-model="listQuery.title">
+      <el-input @keyup.enter.native="handleFilter" class="filter-item filter-item-wap" placeholder="活动名称" v-model="listQuery.title">
       </el-input>
       <!-- <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" :placeholder="$t('table.importance')">
         <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
@@ -22,7 +22,7 @@
     </div>
 
     <el-table :key='tableKey' :data="list" v-loading="listLoading" border fit highlight-current-row
-      style="width: 100%;min-height:1000px;">
+      style="width: 100%;">
       <el-table-column align="center" :label="$t('table.id')" width="65">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
@@ -78,11 +78,11 @@
           </el-button> -->
           <el-button size="mini" type="primary" @click="handleUpdate(scope.row)">{{'编辑'}}
           </el-button>
-          <el-button size="mini" type="warning" @click="handleModifyStatus(scope.row,'draft')">{{'禁用'}}
+          <el-button size="mini" type="warning" @click="handleModifyStatus(scope.row, 4)">{{'禁用'}}
           </el-button>
-          <el-button size="mini" type="info" @click="handleModifyStatus(scope.row,'deleted')">{{'奖品'}}
+          <el-button size="mini" type="info" @click="handleModifyStatus(scope.row)">{{'奖品'}}
           </el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.row,'deleted')">{{'删除'}}
+          <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{'删除'}}
           </el-button>
         </template>
       </el-table-column>
@@ -101,19 +101,19 @@
             </el-option>
           </el-select>
         </el-form-item> -->
-        <el-form-item :label="$t('table.title')" prop="title">
+        <el-form-item required="true" :label="$t('table.title')" prop="title">
           <el-input v-model="temp.title"></el-input>
         </el-form-item>
-        <el-form-item label="开始时间" prop="startTime">
-          <el-date-picker v-model="temp.startTime" type="datetime" value-format="timestamp" placeholder="Please pick a date">
+        <el-form-item  required label="开始时间" prop="startTime">
+          <el-date-picker v-model="temp.startTime" type="datetime" value-format="timestamp" placeholder="请选择开始时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="结束时间" prop="endTime">
-          <el-date-picker v-model="temp.endTime" type="datetime" value-format="timestamp" placeholder="Please pick a date">
+        <el-form-item required label="结束时间" prop="endTime">
+          <el-date-picker v-model="temp.endTime" type="datetime" value-format="timestamp" placeholder="请选择结束时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item :label="$t('table.status')" v-if="dialogStatus!=='create'">
-          <el-select class="filter-item" v-model="temp.status" placeholder="Please select">
+        <el-form-item required :label="$t('table.status')" v-if="dialogStatus!=='create'">
+          <el-select class="filter-item" v-model="temp.status" placeholder="请选择">
             <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -263,7 +263,7 @@ export default {
         // Just to simulate the time of the request
         setTimeout(() => {
           this.listLoading = false
-        }, 1.5 * 1000)
+        }, 0.5 * 1000)
       })
       // fetchList(this.listQuery).then(response => {
       //   this.list = response.data.items
@@ -326,7 +326,8 @@ export default {
               title: '成功',
               message: '创建成功',
               type: 'success',
-              duration: 2000
+              duration: 2000,
+              onClose: this.getList()
             })
           })
           // createArticle(this.temp).then(() => {
@@ -346,7 +347,7 @@ export default {
       // const rowData = row
       console.log('数据为', row)
       var rowData = deepClone(row)
-      rowData.status = this.statusOptions[row.status - 1]['label']
+      rowData.status = this.statusOptions[row.status - 1].label
       // row.status = this.statusOptions[row.status]['label']
       this.temp = Object.assign({}, rowData) // copy obj
       // this.temp.timestamp = new Date(this.temp.timestamp)
