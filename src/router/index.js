@@ -32,7 +32,7 @@ export const constantRouterMap = [
     name: 'Dashboard',
     hidden: true,
     meta: {
-      title: '面板'
+      title: '统计'
     },
     children: [{
       meta: {
@@ -54,7 +54,7 @@ export const asyncRouterMap = [
   {
     path: '/activity',
     component: Layout,
-    redirect: '/activityManage',
+    redirect: '/activity/activityManage',
     name: 'activity',
     meta: {
       title: '运营活动',
@@ -68,7 +68,7 @@ export const asyncRouterMap = [
   {
     path: '/wechatWithdraw',
     component: Layout,
-    redirect: '/pendingWithdraw',
+    redirect: '/wechatWithdraw/pendingWithdraw',
     name: 'wechatWithdraw',
     meta: {
       title: '微信提现',
@@ -78,7 +78,7 @@ export const asyncRouterMap = [
       { path: 'pendingWithdraw', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
       { path: 'withdrawRecord', component: () => import('@/views/wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }}
     ]
-  },
+  }
 
-  { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/404', hidden: true }
 ]

@@ -1,24 +1,24 @@
 <template>
   <div class="login-container">
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
-      <h3 class="title">Uni管理后台登录</h3>
+      <h3 class="title">Uni管理后台</h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user" />
         </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
+        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="用户名" />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password"></svg-icon>
         </span>
         <el-input name="password" :type="pwdType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"
-          placeholder="password"></el-input>
+          placeholder="密码"></el-input>
           <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" class="el-btn-login" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
-          Sign in
+          登&nbsp;&nbsp;&nbsp;&nbsp;录
         </el-button>
       </el-form-item>
       <!-- <div class="tips">
@@ -93,7 +93,7 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss">
 $bg:#2d3a4b;
-$light_gray:#eee;
+$light_gray:#fff;
 
 /* reset element-ui css */
 .login-container {
@@ -117,9 +117,10 @@ $light_gray:#eee;
   }
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.4);
     border-radius: 5px;
-    color: #454545;
+    // color: #454545;
+    color: #fff;
   }
 }
 
@@ -127,8 +128,10 @@ $light_gray:#eee;
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 $bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+// $dark_gray:#889aa4;
+$dark_gray:#045b97;
+// $light_gray:#eee;
+$light_gray:#35aafc;
 .login-container {
   position: fixed;
   height: 100%;
@@ -136,7 +139,8 @@ $light_gray:#eee;
   background: url('/static/images/bg.jpg') no-repeat;
   // background-size: cover;
   background-size: 100% 100%;
-  background-color: #889aa4;
+  background-color: $bg;
+  // background-color: red !important;
   .login-form {
     position: absolute;
     left: 0;
