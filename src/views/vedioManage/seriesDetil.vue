@@ -2,11 +2,17 @@
 <div class="app-container">
      <div class="filter-container">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="视频标题" prop="name">
+        <el-form-item label="系列名称" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="视频封面" required>
-            <el-form-item prop="vedioImg">
+        <el-form-item label="活动区域" prop="region">
+          <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="背景图片" required>
+            <el-form-item prop="date1">
               <el-upload
                 class="upload-demo"
                 action="https://jsonplaceholder.typicode.com/posts/"
@@ -19,11 +25,11 @@
               </el-upload>
             </el-form-item>
         </el-form-item>
-       <el-form-item label="视频地址" prop="courseDesc">
-          <el-input v-model="ruleForm.vedioUrl"></el-input>
+       <el-form-item label="课程介绍" prop="courseDesc">
+          <el-input type="textarea" v-model="ruleForm.courseDesc"></el-input>
         </el-form-item>
-        <el-form-item label="主讲人" prop="lecturerDesc">
-          <el-input v-model="ruleForm.lecturerDesc"></el-input>
+        <el-form-item label="讲师介绍" prop="lecturerDesc">
+          <el-input type="textarea" v-model="ruleForm.lecturerDesc"></el-input>
         </el-form-item>
         <el-form-item label="课程特色" prop="feature">
           <el-input type="textarea" v-model="ruleForm.feature"></el-input>
@@ -64,7 +70,6 @@
 </template>
 <script>
   export default {
-    name: 'vedioDetil',
     data() {
       return {
         fileList2: [],
@@ -90,7 +95,7 @@
           region: [
             { required: true, message: '请选择活动区域', trigger: 'change' }
           ],
-          vedioUrl: [
+          courseDesc: [
             { required: true, message: '请填写内容', trigger: 'blur' }
           ],
           lecturerDesc: [

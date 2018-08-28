@@ -52,6 +52,20 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
+    path: '/permission',
+    component: Layout,
+    redirect: '/permission/userList',
+    name: 'permission',
+    meta: {
+      title: '权限管理',
+      icon: 'user'
+    },
+    children: [
+      { path: 'userList', component: () => import('@/views/permission/userList'), name: 'userList', meta: { title: '角色列表' }},
+      { path: 'userManager', component: () => import('@/views/permission/userManager'), name: 'userManager', meta: { title: '角色管理' }}
+    ]
+  },
+  {
     path: '/activity',
     component: Layout,
     redirect: '/activity/activityManage',
@@ -82,15 +96,17 @@ export const asyncRouterMap = [
   {
     path: '/vedioManage',
     component: Layout,
-    redirect: '/vedioManage',
+    redirect: '/vedioManage/vedioSeries',
     name: 'vedioManage',
     meta: {
       title: '视频管理',
       icon: 'table'
     },
     children: [
-      { path: 'vedioList', component: () => import('@/views/vedioManage/vedioList'), name: 'vedioList', meta: { title: '视频系列列表' }},
-      { path: 'withdrawRecord', component: () => import('@/views/wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }, hidden: true }
+      { path: 'vedioSeries', component: () => import('@/views/vedioManage/vedioSeries'), name: 'vedioSeries', meta: { title: '视频系列列表' }},
+      { path: 'seriesDetil/:id', component: () => import('@/views/vedioManage/seriesDetil'), name: 'seriesDetil', meta: { title: '系列详情' }, hidden: true },
+      { path: 'vedioList/:id', component: () => import('@/views/vedioManage/vedioList'), name: 'vedioList', meta: { title: '视频列表' }, hidden: true },
+      { path: 'vedioDetil/:vid', component: () => import('@/views/vedioManage/vedioDetil'), name: 'vedioDetil', meta: { title: '视频列表' }, hidden: true }
     ]
   },
   { path: '*', redirect: '/404', hidden: true }
