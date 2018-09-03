@@ -39,7 +39,7 @@ export const constantRouterMap = [
         title: '首页'
       },
       path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
+      component: () => import('@/views/dashboard/indexLook')
     }]
   }
 ]
