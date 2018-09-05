@@ -66,6 +66,20 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/studyManage',
+    component: Layout,
+    redirect: '/studyManage/dailyTest',
+    name: 'studyManage',
+    meta: {
+      title: '测题管理',
+      icon: 'user'
+    },
+    children: [
+      { path: 'dailyTest', component: () => import('@/views/studyManage/dailyTest'), name: 'dailyTest', meta: { title: '每日一次题目列表' }},
+      { path: 'dailyTestDetail', component: () => import('@/views/studyManage/dailyTestDetail'), name: 'dailyTestDetail', meta: { title: '每日一次题目详情' }}
+    ]
+  },
+  {
     path: '/activity',
     component: Layout,
     redirect: '/activity/activityManage',

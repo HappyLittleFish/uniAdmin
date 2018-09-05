@@ -7,23 +7,19 @@
         </div> -->
         <div class="card-panel-description" >
           <div class="card-panel-text">今日注册</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="todayData.regCountNow" :duration="2600"></count-to>
-          <!-- <div class="card-panel-num">{{totalUserNum}}</div> -->
+          <div class="card-panel-num">{{todayData.regCountNow}}</div>
         </div>
          <div class="card-panel-description">
           <div class="card-panel-text">今日登陆</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="todayData.logonNumNow" :duration="2600"></count-to>
-          <!-- <div class="card-panel-num">{{totalUserNum}}</div> -->
+          <div class="card-panel-num">{{todayData.logonNumNow}}</div>
         </div>
          <div class="card-panel-description">
           <div class="card-panel-text">今日订单</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="todayData.orderNumNow" :duration="2600"></count-to>
-          <!-- <div class="card-panel-num">{{totalUserNum}}</div> -->
+          <div class="card-panel-num">{{todayData.orderNumNow}}</div>
         </div>
          <div class="card-panel-description">
           <div class="card-panel-text">今日活跃</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="todayData.dailyActivity" :duration="2600"></count-to>
-          <!-- <div class="card-panel-num">{{totalUserNum}}</div> -->
+          <div class="card-panel-num">{{todayData.dailyActivity}}</div>
         </div>
       </div>
     </el-col>
@@ -31,23 +27,19 @@
       <div class="card-panel" @click="handleSetLineChartData('messages')" style="background: #36a3f7;">
         <div class="card-panel-description">
           <div class="card-panel-text">昨日注册</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="yesterdayData.yesRegCountNow" :duration="3000"></count-to>
-          <!-- <div class="card-panel-num">{{totalUserNum}}</div> -->
+          <div class="card-panel-num">{{yesterdayData.yesRegCountNow}}</div>
         </div>
          <div class="card-panel-description">
           <div class="card-panel-text">昨日登陆</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="yesterdayData.yesLogonNumNow" :duration="3000"></count-to>
-          <!-- <div class="card-panel-num">{{totalUserNum}}</div> -->
+          <div class="card-panel-num">{{yesterdayData.yesLogonNumNow}}</div>
         </div>
          <div class="card-panel-description">
           <div class="card-panel-text">昨日订单</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="yesterdayData.yesOrderNumNow" :duration="3000"></count-to>
-          <!-- <div class="card-panel-num">{{totalUserNum}}</div> -->
+          <div class="card-panel-num">{{yesterdayData.yesOrderNumNow}}</div>
         </div>
          <div class="card-panel-description">
           <div class="card-panel-text">昨日活跃</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="yesterdayData.yesDailyActivity" :duration="3000"></count-to>
-          <!-- <div class="card-panel-num">{{totalUserNum}}</div> -->
+         <div class="card-panel-num">{{yesterdayData.yesDailyActivity}}</div>
         </div>
       </div>
     </el-col>
@@ -55,29 +47,29 @@
       <div class="card-panel" @click="handleSetLineChartData('purchases')" style="background: #f4516c;">
          <p style="font-size:26px;text-align:center;">昨日每日一测</p>
         <div class="card-panel-description">
-          <div class="card-panel-text">总金额数</div>
+          <div class="card-panel-text">完成数</div>
           <!-- <count-to class="card-panel-num" :startVal="0" :endVal="totalOrderAmount" :duration="3200"></count-to> -->
-          <div class="card-panel-num">{{totalOrderAmount | isValid}}</div>
+          <div class="card-panel-num">{{dailyTestFinishNum}}</div>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">总金额数</div>
+          <div class="card-panel-text">分享数</div>
           <!-- <count-to class="card-panel-num" :startVal="0" :endVal="totalOrderAmount" :duration="3200"></count-to> -->
-          <div class="card-panel-num">{{totalOrderAmount | isValid}}</div>
+          <div class="card-panel-num">{{dailyTestShareNum}}</div>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('shoppings')" style="background: #40c9c6;">
-        <p style="font-size:26px;text-align:center;">昨日每日一测</p>
+        <p style="font-size:26px;text-align:center;">昨日RS诊断</p>
         <div class="card-panel-description">
-          <div class="card-panel-text">总金额数</div>
+          <div class="card-panel-text">完成数</div>
           <!-- <count-to class="card-panel-num" :startVal="0" :endVal="totalOrderAmount" :duration="3200"></count-to> -->
-          <div class="card-panel-num">{{totalOrderAmount | isValid}}</div>
+          <div class="card-panel-num">{{diagTestFinishNum}}</div>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">总金额数</div>
+          <div class="card-panel-text">分享数</div>
           <!-- <count-to class="card-panel-num" :startVal="0" :endVal="totalOrderAmount" :duration="3200"></count-to> -->
-          <div class="card-panel-num">{{totalOrderAmount | isValid}}</div>
+          <div class="card-panel-num">{{diagTestShareNum}}</div>
         </div>
       </div>
     </el-col>
@@ -98,11 +90,19 @@ export default {
       type: Object,
       default: 0
     },
-    totalOrderNum: {
+    dailyTestFinishNum: {
       type: [String, Number],
       default: 0
     },
-    totalOrderAmount: {
+    dailyTestShareNum: {
+      type: [String, Number],
+      default: 0
+    },
+    diagTestFinishNum: {
+      type: [String, Number],
+      default: 0
+    },
+    diagTestShareNum: {
       type: [String, Number],
       default: 0
     }

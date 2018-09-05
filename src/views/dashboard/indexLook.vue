@@ -22,7 +22,14 @@
         </div>
       </div>
     </div>
-    <show-group></show-group>
+    <show-group
+    :todayData='record.operIndVo'
+    :yesterdayData='record.operIndVo'
+    :dailyTestFinishNum='record.operIndVo.dailyTestFinishNum'
+    :dailyTestShareNum='record.operIndVo.dailyTestShareNum'
+    :diagTestFinishNum='record.operIndVo.diagTestFinishNum'
+    :diagTestShareNum='record.operIndVo.diagTestShareNum'
+    ></show-group>
    
     <!-- <div class="sysMes">
       <div class="cpu">
@@ -247,7 +254,7 @@ export default {
   margin-left: 0px;
 }
 .echart-nav-wrapper {
-  width: 10%;
+  width: 15%;
   z-index: 1000;
 }
 .echart-nav {
