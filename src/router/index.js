@@ -62,7 +62,8 @@ export const asyncRouterMap = [
     },
     children: [
       { path: 'userList', component: () => import('@/views/permission/userList'), name: 'userList', meta: { title: '角色列表' }},
-      { path: 'userManager', component: () => import('@/views/permission/userManager'), name: 'userManager', meta: { title: '角色管理' }}
+      { path: 'userManager', component: () => import('@/views/permission/userManager'), name: 'userManager', meta: { title: '角色管理' }},
+      { path: 'permissionConfig', component: () => import('@/views/permission/permissionConfig'), name: 'permissionConfig', meta: { title: '权限配置' }}
     ]
   },
   {
@@ -72,7 +73,7 @@ export const asyncRouterMap = [
     name: 'studyManage',
     meta: {
       title: '测题管理',
-      icon: 'user'
+      icon: 'form'
     },
     children: [
       { path: 'dailyTest', component: () => import('@/views/studyManage/dailyTest'), name: 'dailyTest', meta: { title: '每日一次题目列表' }},
@@ -114,7 +115,7 @@ export const asyncRouterMap = [
     name: 'vedioManage',
     meta: {
       title: '视频管理',
-      icon: 'table'
+      icon: 'international'
     },
     children: [
       { path: 'vedioSeries', component: () => import('@/views/vedioManage/vedioSeries'), name: 'vedioSeries', meta: { title: '视频系列列表' }},

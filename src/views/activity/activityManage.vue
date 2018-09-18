@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" class="filter-item filter-item-wap" placeholder="活动名称" v-model="listQuery.title">
+      <el-input @keyup.enter.native="handleFilter" class="filter-item filter-item-wap" placeholder="活动名称" v-model="listQuery.activityName">
       </el-input>
       <!-- <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" :placeholder="$t('table.importance')">
         <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
@@ -11,13 +11,13 @@
         <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key">
         </el-option>
       </el-select> -->
-      <el-select @change='handleFilter' class="filter-item filter-item-wap" v-model="listQuery.sort">
+      <!-- <el-select @change='handleFilter' class="filter-item filter-item-wap" v-model="listQuery.sort">
         <el-option class="el-input__inner_wap" v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key">
         </el-option>
-      </el-select>
+      </el-select> -->
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" style="margin-left: 5px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
-      <el-button class="filter-item" style="margin-left: 5px;" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">导出</el-button>
+      <!-- <el-button class="filter-item" style="margin-left: 5px;" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">导出</el-button> -->
       <!-- <el-checkbox class="filter-item" style='margin-left:15px;' @change='tableKey=tableKey+1' v-model="showReviewer">{{$t('table.reviewer')}}</el-checkbox> -->
     </div>
 
@@ -180,13 +180,13 @@ export default {
       listLoading: true,
       listQuery: {
         pageNo: 1,
-        pageSize: 20,
+        pageSize: 10,
         activityName: undefined,
         activityStatus: undefined,
         // status: undefined,
         orderby: 'id',
         sort: undefined
-        // type: undefined,
+        // title: undefined
         // importance: undefined,
       },
       // importanceOptions: [1, 2, 3],

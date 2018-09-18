@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       "/api/*": {
-        target: 'https://cmst.unifin.com.cn/',
+        target: 'https://cmst.unifin.com.cn:8080/',
         secure: false,
         changeOrigin: true
       }
