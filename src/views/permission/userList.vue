@@ -10,7 +10,7 @@
       label="序号"
       width="120">
       <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
+        <span style="margin-left: 10px">{{ scope.row.id }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -19,7 +19,7 @@
       <template slot-scope="scope">
         <el-popover trigger="hover" placement="top">
           <p>姓名: {{ scope.row.name }}</p>
-          <p>住址: {{ scope.row.address }}</p>
+          <p>是否可用: {{ scope.row.available==true?'可用':'不可用' }}</p>
           <div slot="reference" class="name-wrapper">
             <el-tag size="medium">{{ scope.row.name }}</el-tag>
           </div>
@@ -51,6 +51,10 @@
       </template>
     </el-table-column>
   </el-table>
+  <div class="pagination-container">
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageData.pageNo" :page-sizes="[10,20,30, 50]" :page-size="pageData.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      </el-pagination>
+    </div>
   <el-dialog title="角色添加" :visible.sync="dialogFormVisible">
     <el-form :model="form">
       <el-form-item label="角色名称" :label-width="formLabelWidth">
@@ -83,127 +87,148 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="dialogFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      <el-button type="primary" @click="handleAdd">确 定</el-button>
     </div>
   </el-dialog>
 </div>
 </template>
 
 <script>
-  export default {
-    name: 'vedioSeries',
-    data() {
-      return {
-        tableData: [{
-          date: '1',
-          name: 'cly',
-          address: '上海市普陀区金沙江路 1518 弄',
-          userName: '122233232',
-          position: '主管'
-        }, {
-          date: '2',
-          name: 'zhw',
-          address: '上海市普陀区金沙江路 1517 弄',
-          userName: '112322',
-          position: 'it'
-        }, {
-          date: '3',
-          name: 'lf',
-          address: '上海市普陀区金沙江路 1519 弄',
-          userName: '122332',
-          position: '198'
-        }, {
-          date: '4',
-          name: 'yj',
-          address: '上海市普陀区金沙江路 1516 弄',
-          userName: '14412',
-          position: '198'
-        }],
-        data2: [{
-          id: 1,
-          label: '一级 1',
+import { getUserInfo } from '@/api/userInfo'
+// , addUserInfo, delUserInfo
+export default {
+  name: 'vedioSeries',
+  data() {
+    return {
+      tableData: [{
+        date: '1',
+        name: 'cly',
+        address: '上海市普陀区金沙江路 1518 弄',
+        userName: '122233232',
+        position: '主管'
+      }, {
+        date: '2',
+        name: 'zhw',
+        address: '上海市普陀区金沙江路 1517 弄',
+        userName: '112322',
+        position: 'it'
+      }, {
+        date: '3',
+        name: 'lf',
+        address: '上海市普陀区金沙江路 1519 弄',
+        userName: '122332',
+        position: '198'
+      }, {
+        date: '4',
+        name: 'yj',
+        address: '上海市普陀区金沙江路 1516 弄',
+        userName: '14412',
+        position: '198'
+      }],
+      data2: [{
+        id: 1,
+        label: '一级 1',
+        children: [{
+          id: 4,
+          label: '二级 1-1',
           children: [{
-            id: 4,
-            label: '二级 1-1',
-            children: [{
-              id: 9,
-              label: '三级 1-1-1'
-            }, {
-              id: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
-        }, {
-          id: 2,
-          label: '一级 2',
-          children: [{
-            id: 5,
-            label: '二级 2-1'
+            id: 9,
+            label: '三级 1-1-1'
           }, {
-            id: 6,
-            label: '二级 2-2'
+            id: 10,
+            label: '三级 1-1-2'
           }]
-        }, {
-          id: 3,
-          label: '一级 3',
-          children: [{
-            id: 7,
-            label: '二级 3-1'
-          }, {
-            id: 8,
-            label: '二级 3-2'
-          }]
-        }],
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        },
-        dialogFormVisible: false,
-        form: {
-          name: '',
-          region: ''
-        },
-        formLabelWidth: '120px'
-      }
-    },
-    created() {
-  
-    },
-    methods: {
-      handleEdit(index, row) {
-        console.log(index, row)
-      },
-      handleAdd(index, row) {
-        console.log(index, row)
-      },
-      handlePut(index, row) {
-        console.log(index, row)
-      },
-      handleCreate(index) {
-        console.log(index)
-      },
-      // 树形选择器
-      getCheckedNodes() {
-        console.log(this.$refs.tree.getCheckedNodes())
-      },
-      getCheckedKeys() {
-        console.log(this.$refs.tree.getCheckedKeys())
-      },
-      setCheckedNodes() {
-        this.$refs.tree.setCheckedNodes([{
+        }]
+      }, {
+        id: 2,
+        label: '一级 2',
+        children: [{
           id: 5,
           label: '二级 2-1'
         }, {
-          id: 9,
-          label: '三级 1-1-1'
-        }])
+          id: 6,
+          label: '二级 2-2'
+        }]
+      }, {
+        id: 3,
+        label: '一级 3',
+        children: [{
+          id: 7,
+          label: '二级 3-1'
+        }, {
+          id: 8,
+          label: '二级 3-2'
+        }]
+      }],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
       },
-      setCheckedKeys() {
-        this.$refs.tree.setCheckedKeys([3])
+      dialogFormVisible: false,
+      form: {
+        name: '',
+        region: ''
       },
-      resetChecked() {
-        this.$refs.tree.setCheckedKeys([])
-      }
+      formLabelWidth: '120px',
+      pageData: {
+        pageNo: 1,
+        pageSize: 10
+      },
+      total: 0
+    }
+  },
+  created() {
+    this.init()
+  },
+  methods: {
+    init() {
+      getUserInfo(this.pageData).then(response => {
+        if (response === null) return
+        console.log('res', response)
+        this.tableData = response.list
+        this.total = response.total
+      })
+    },
+    handleSizeChange(val) {
+      console.log('pageSize', val)
+    },
+    handleCurrentChange(val) {
+      console.log('page', val)
+    },
+    handleEdit(index, row) {
+      console.log(index, row)
+    },
+    handleAdd(index, row) {
+      console.log(index, row)
+    },
+    handlePut(index, row) {
+      console.log(index, row)
+    },
+    handleCreate(index) {
+      console.log(index)
+    },
+    // 树形选择器
+    getCheckedNodes() {
+      console.log(this.$refs.tree.getCheckedNodes())
+    },
+    getCheckedKeys() {
+      console.log(this.$refs.tree.getCheckedKeys())
+    },
+    setCheckedNodes() {
+      this.$refs.tree.setCheckedNodes([{
+        id: 5,
+        label: '二级 2-1'
+      }, {
+        id: 9,
+        label: '三级 1-1-1'
+      }])
+    },
+    setCheckedKeys() {
+      this.$refs.tree.setCheckedKeys([3])
+    },
+    resetChecked() {
+      this.$refs.tree.setCheckedKeys([])
     }
   }
+}
 </script>

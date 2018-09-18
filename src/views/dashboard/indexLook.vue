@@ -8,7 +8,7 @@
     :totalHits='record.operIndVo.totalHits'
     :totalOrderNum='record.operIndVo.totalOrderNum'
     :totalOrderAmount='record.operIndVo.totalOrderAmount'></PanelGroup>
-    <div class="echart" style='height:30%'>
+    <div class="echart" style='height:40%'>
       <div class="echart-content">
         <div class="echart-nav-wrapper" v-if="true">
           <ul class="echart-nav">

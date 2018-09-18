@@ -148,6 +148,7 @@ export default {
     margin-bottom: 32px;
   }
   .card-panel {
+    text-align: center;
     margin-left: 10px;
     margin-right: 10px;
     height: 216px;
@@ -203,12 +204,12 @@ export default {
     .card-panel-description {
       float: right;
       font-weight: bold;
-      margin: 26px;
+      margin:26px ;
       margin-left: 0px;
       .card-panel-text {
         line-height: 18px;
         color: #fff;
-        font-size: 26px;
+        font-size: 24px;
         margin-bottom: 12px;
       }
       .card-panel-num {
