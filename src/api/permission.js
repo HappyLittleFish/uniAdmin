@@ -39,3 +39,84 @@ export function queryPermissionByUserId(params) {
     data: params
   })
 }
+
+export function getRoleList(params) {
+  return request({
+    url: '/role/roleList',
+    method: 'post',
+    data: params
+  })
+}
+
+export function addRole(params) {
+  return request({
+    url: '/role/roleAdd',
+    method: 'post',
+    data: params
+  })
+}
+
+export function delRole(params) {
+  return request({
+    url: '/role/deleteRole',
+    method: 'post',
+    data: params
+  })
+}
+
+export function updateRole(params) {
+  return request({
+    url: '/role/updateRole',
+    method: 'post',
+    data: params
+  })
+}
+
+export function resetPassword(params) {
+  return request({
+    url: '/user/setup-forget-password',
+    method: 'post',
+    data: params
+  })
+}
+
+export function getUserList(params) {
+  return request({
+    url: '/userInfo/userList',
+    method: 'post',
+    data: params
+  })
+}
+
+export function getUserListByRoleId(params) {
+  return request({
+    url: '/userInfo/userListByRoleId',
+    method: 'post',
+    data: params
+  })
+}
+
+export function addUser(params) {
+  return request({
+    url: '/userInfo/userAdd',
+    method: 'post',
+    data: params
+  })
+}
+
+export function delUser(params) {
+  return request({
+    url: '/userInfo/userDel',
+    method: 'post',
+    data: params
+  })
+}
+
+export function updateUser(params) {
+  return request({
+    url: '/userInfo/userUpdate',
+    method: 'post',
+    data: params
+  })
+}
+

@@ -2,9 +2,9 @@
 <div class="tree-container">
   <div class="custom-tree-container">
     <el-input
-  placeholder="输入关键字进行过滤"
-  v-model="filterText">
-</el-input>
+      placeholder="输入关键字进行过滤"
+      v-model="filterText">
+    </el-input>
     <!-- <div class="block">
       <p>使用 render-content</p>
       <el-tree
@@ -20,12 +20,15 @@
     <div class="block">
       <el-tree
         :data="list"
+        :props="props"
         node-key="id"
         default-expand-all
         :expand-on-click-node="false"
         :filter-node-method="filterNode"
+        :check-on-click-node="true"
+        :highlight-current="true"
         ref="tree2">
-        <!-- <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span class="custom-tree-node" slot-scope="{ node, data }">
           <span>{{ node.label }}</span>
           <span>
             <el-button
@@ -37,80 +40,111 @@
             <el-button
               type="text"
               size="mini"
-              @click="() => remove(node, data)">
+              @click="() => edit(data)">
+              编辑
+            </el-button>
+            <el-button
+              type="text"
+              size="mini"
+              @click="() => remove(data)">
               删除
             </el-button>
           </span>
-        </span> -->
+        </span>
       </el-tree>
     </div>
   </div>
-  <div class="tree-content" style="height:600px;width:800px;">
-    <el-form ref="dataForm" :model="temp" label-position="left" label-width="80px" style='width: 400px; margin-left:50px;'>
-        <el-form-item required="true" label="url" prop="url">
-          <el-input v-model="temp.title"></el-input>
+  <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <!-- name	String	权限名称（资源名称）
+    resourceType	String	资源类型[menu,button]
+    url	String	资源路径
+    permissions	String	权限字符串,menu例子：role:*，button例子：role:create,role:update,role:delete,role:view
+    parentId	integer	父编号
+    parentIds	integer	父编号列表
+    available	integer	默认值为false -->
+      <el-form ref="dataForm" :model="temp" label-position="left" label-width="80px" style='width: 400px; margin-left:50px;'>
+        <el-form-item required label="权限名称" prop="name">
+          <el-input v-model="temp.name"></el-input>
         </el-form-item>
-        <el-form-item  required label="权限名称" prop="startTime">
-          <el-date-picker v-model="temp.startTime" type="datetime" value-format="timestamp" placeholder="请选择开始时间">
-          </el-date-picker>
+        <el-form-item required label="资源类型">
+          <el-select class="filter-item" v-model="temp.resourceType" placeholder="请选择">
+            <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item required label="权限编码" prop="endTime">
-          <el-date-picker v-model="temp.endTime" type="datetime" value-format="timestamp" placeholder="请选择结束时间">
-          </el-date-picker>
+        <el-form-item required label="资源路径" prop="url">
+          <el-input v-model="temp.url"></el-input>
+        </el-form-item>
+        <el-form-item required label="权限描述" prop="permission">
+          <el-input v-model="temp.permission"></el-input>
+        </el-form-item>
+        <el-form-item required label="父编号" prop="parentId">
+          <el-input v-model="temp.parentId"></el-input>
+        </el-form-item>
+        <el-form-item required label="是否启用">
+          <el-select class="filter-item" v-model="temp.available" placeholder="请选择">
+            <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
-  </div>
-  </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button v-if="dialogStatus==='create'" type="primary" @click="createData">确认</el-button>
+        <el-button v-else type="primary" @click="updateData">确认</el-button>
+      </div>
+    </el-dialog>
+</div>
 </template>
 
 <script>
 // import { getPermissionList, permissionAdd, permissionUpdate, permissionDel } from '@/api/permission'
-import { getPermissionList } from '@/api/permission'
-var id = 1000
+import { getPermissionList, permissionAdd, permissionUpdate, permissionDel } from '@/api/permission'
+// var id = 1000
 export default {
   data() {
-    const data = [{
-      id: 1,
-      label: '一级 1',
-      children: [{
-        id: 4,
-        label: '二级 1-1',
-        children: [{
-          id: 9,
-          label: '三级 1-1-1'
-        }, {
-          id: 10,
-          label: '三级 1-1-2'
-        }]
-      }]
-    }, {
-      id: 2,
-      label: '一级 2',
-      children: [{
-        id: 5,
-        label: '二级 2-1'
-      }, {
-        id: 6,
-        label: '二级 2-2'
-      }]
-    }, {
-      id: 3,
-      label: '一级 3',
-      children: [{
-        id: 7,
-        label: '二级 3-1'
-      }, {
-        id: 8,
-        label: '二级 3-2'
-      }]
-    }]
     return {
-      // data4: JSON.parse(JSON.stringify(data)),
-      data5: JSON.parse(JSON.stringify(data)),
       filterText: '',
-      temp: {},
+      temp: {
+        name: '',
+        resourceType: '',
+        url: '',
+        permission: '',
+        parentId: '',
+        // parentIds: '',
+        available: ''
+      },
       listQuery: {},
-      list: []
+      list: [],
+      props: {
+        label: 'name'
+        // children: 'children'
+      },
+      dialogFormVisible: false,
+      textMap: {
+        update: 'Edit',
+        create: 'Create'
+      },
+      dialogStatus: '',
+      rules: {
+        type: [{ required: true, message: 'type is required', trigger: 'change' }],
+        timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
+        title: [{ required: true, message: 'title is required', trigger: 'blur' }]
+      },
+      typeOptions: [{
+        value: 'menu',
+        label: '菜单'
+      }, {
+        value: 'button',
+        label: '按钮'
+      }],
+      statusOptions: [{
+        value: true,
+        label: '启用'
+      }, {
+        value: false,
+        label: '禁用'
+      }]
     }
   },
   watch: {
@@ -128,10 +162,16 @@ export default {
       getPermissionList(this.listQuery).then(response => {
         console.log('list数据为', response)
         this.list = response.data
-        for (let i = 0; i < this.list.length; i++) {
-          this.list[i].label = this.list[i].name
-          this.list[i].children = this.list[i].child
-        }
+        // for (let i = 0; i < this.list.length; i++) {
+        // this.list[i].label = this.list[i].name
+        // this.list[i].children = this.list[i].child
+        // this.checkHasChildrenOrNot(this.list[i])
+        // if (this.list[i].hasOwnProperty('children') && this.list[i].children.length) {
+        //   for (let n = 0; n < this.list[i].children.length; n++) {
+        //     this.list[i].children[n].label = this.list[i].children[n].name
+        //   }
+        // }
+        // }
         // this.total = response.total
 
         // Just to simulate the time of the request
@@ -140,19 +180,111 @@ export default {
         }, 0.5 * 1000)
       })
     },
-    append(data) {
-      const newChild = { id: id++, label: 'testtest', children: [] }
-      if (!data.children) {
-        this.$set(data, 'children', [])
+    checkHasChildrenOrNot(el) {
+      if (el.hasOwnProperty('children') && el.children.length > 0) {
+        for (let i = 0; i < el.children.length; i++) {
+          el.children[i].label = el.children[i].name
+          this.checkHasChildrenOrNot(el.children[i])
+        }
       }
-      data.children.push(newChild)
     },
-
-    remove(node, data) {
-      const parent = node.parent
-      const children = parent.data.children || parent.data
-      const index = children.findIndex(d => d.id === data.id)
-      children.splice(index, 1)
+    createData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          console.log('新添加的数据为', this.temp)
+          permissionAdd(this.temp).then(response => {
+            if (response === null) return
+            console.log('新增数据成功', response)
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '成功',
+              message: '创建成功',
+              type: 'success',
+              duration: 2000,
+              onClose: this.getList()
+            })
+          })
+        } else {
+          console.log('输入不合法')
+        }
+      })
+    },
+    updateData() {
+      console.log('更新数据')
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          console.log('新添加的数据为', this.temp)
+          permissionUpdate(this.temp).then(response => {
+            if (response === null) return
+            console.log('更新数据成功', response)
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '成功',
+              message: '更新成功',
+              type: 'success',
+              duration: 2000,
+              onClose: this.getList()
+            })
+          })
+        } else {
+          console.log('输入不合法')
+        }
+      })
+    },
+    // 新增权限
+    append(data) {
+      this.dialogStatus = 'create'
+      console.log('当前节点数据为', data)
+      this.temp.parentId = data.id
+      this.temp.url = data.url
+      this.dialogFormVisible = true
+      // const newChild = { id: id++, label: 'testtest', children: [] }
+      // if (!data.children) {
+      //   this.$set(data, 'children', [])
+      // }
+      // data.children.push(newChild)
+    },
+    // 编辑权限
+    edit(data) {
+      console.log('编辑的数据为', data)
+      this.dialogStatus = 'edit'
+      this.temp = data
+      this.dialogFormVisible = true
+    },
+    // 删除权限
+    remove(data) {
+      // const parent = node.parent
+      // const children = parent.data.children || parent.data
+      // const index = children.findIndex(d => d.id === data.id)
+      // children.splice(index, 1)
+      this.$confirm('此操作将永久删除权限, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        permissionDel([data.id])
+        this.$message({
+          type: 'success',
+          message: '删除成功!',
+          onClose: this.getList()
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    resetTemp() {
+      this.temp = {
+        name: '',
+        resourceType: '',
+        url: '',
+        permission: '',
+        parentId: '',
+        // parentIds: '',
+        available: ''
+      }
     },
 
     filterNode(value, data) {
@@ -174,10 +306,13 @@ export default {
     justify-content: space-between;
     font-size: 14px;
     padding-right: 8px;
-    width: 500px;
+    width: 300px;
   }
   .tree-content {
     flex-grow: 1
+  }
+  .el-form-item {
+    margin-bottom: 16px;
   }
 }
 </style>

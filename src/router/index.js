@@ -61,9 +61,9 @@ export const asyncRouterMap = [
       icon: 'user'
     },
     children: [
-      { path: 'userList', component: () => import('@/views/permission/userList'), name: 'userList', meta: { title: '角色列表' }},
-      { path: 'userManager', component: () => import('@/views/permission/userManager'), name: 'userManager', meta: { title: '角色管理' }},
-      { path: 'permissionConfig', component: () => import('@/views/permission/permissionConfig'), name: 'permissionConfig', meta: { title: '权限配置' }}
+      { path: 'permissionConfig', component: () => import('@/views/permission/permissionConfig'), name: 'permissionConfig', meta: { title: '权限配置' }},
+      { path: 'roleManage', component: () => import('@/views/permission/roleManage'), name: 'roleManage', meta: { title: '角色管理' }},
+      { path: 'userManage', component: () => import('@/views/permission/userManage'), name: 'userManage', meta: { title: '用户管理' }}
     ]
   },
   {
