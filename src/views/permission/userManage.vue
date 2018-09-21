@@ -19,28 +19,25 @@
           <span class="link-type">{{scope.row.name}}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="110px" align="center" label="拥有角色">
+      <el-table-column min-width="210px" align="center" label="拥有角色">
         <template slot-scope="scope">
-          <span>{{scope.row.roles}}</span>
+          <el-tag style="margin-right:6px" v-for="item in roleList" :key="item.id" v-if="isInArray(scope.row.roleIds,item.id)">{{item.description}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" :label="$t('table.status')" width="130px">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.available | statusFilter">{{statusOptions[scope.row.available-1].label}}</el-tag>
-          <!-- <el-tag :type="scope.row.status">{{scope.row.status}}</el-tag> -->
+          <el-tag :type="scope.row.available | statusFilter">{{available?statusOptions[1].label:statusOptions[0].label}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" :label="$t('table.actions')" width="400" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button  size="small" type="primary" @click="handleUpdate(scope.row)">{{'编辑'}}
           </el-button>
-          <el-button  size="small" type="primary" @click="handleforbid(scope.row)">{{'禁用'}}
+          <el-button  size="small" type="info" @click="handleforbid(scope.row)">{{'禁用'}}
           </el-button>
-          <el-button  size="small" type="warning" @click="handleDelete(scope.row)">{{'删除'}}
+          <el-button size="small" type="warning" @click="handleResetPassword(scope.row)">{{'重置密码'}}
           </el-button>
-          <el-button size="small" type="danger" @click="handleResetPassword(scope.row)">{{'重置密码'}}
-          </el-button>
-          <el-button size="small" type="danger" @click="handleConfigRole(scope.row)">{{'配置角色'}}
+          <el-button  size="small" type="danger" @click="handleDelete(scope.row)">{{'删除'}}
           </el-button>
         </template>
       </el-table-column>
@@ -53,17 +50,12 @@
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="80px" style='width: 400px; margin-left:50px;'>
-        <el-form-item required="true" label="用户名" prop="name">
+        <el-form-item required label="用户名" prop="name">
           <el-input v-model="temp.name"></el-input>
         </el-form-item>
-        <el-form-item  required label="密码" prop="password">
-          <el-input v-model="temp.password"></el-input>
-        </el-form-item>
-        <el-form-item  required label="赋予角色" prop="password">
-          <el-checkbox-group v-model="temp.roles">
-            <el-checkbox label="管理员"></el-checkbox>
-            <el-checkbox label="超级管理员"></el-checkbox>
-            <el-checkbox label="普通管理员"></el-checkbox>
+        <el-form-item  required label="赋予角色">
+          <el-checkbox-group v-model="roleChecked" @change="changeCheckBox">
+            <el-checkbox v-for="item in roleList" :label="item.id" v-if="item.available" :key="item.id">{{item.description}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -78,7 +70,7 @@
 </template>
 
 <script>
-import { getUserList, getPermissionList, addUser, delUser, updateRole } from '@/api/permission'
+import { getUserList, getPermissionList, addUser, delUser, updateUser, resetPassword, getRoleList } from '@/api/permission'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 
@@ -122,11 +114,11 @@ export default {
       calendarTypeOptions,
       sortOptions: [{ label: '升序', key: 'asc' }, { label: '降序', key: 'desc' }],
       statusOptions: [{
-        value: '1',
-        label: '已启用'
-      }, {
-        value: '2',
+        value: 0,
         label: '已禁用'
+      }, {
+        value: 1,
+        label: '已启用'
       }],
       showReviewer: false,
       temp: {
@@ -136,7 +128,6 @@ export default {
         // timestamp: new Date(),
         name: '',
         // roleState: '',
-        password: '',
         roles: []
       },
       dialogFormVisible: false,
@@ -156,13 +147,19 @@ export default {
       props: {
         label: 'name'
         // children: 'children'
-      }
+      },
+      roleList: [],
+      roleChecked: []
     }
   },
   filters: {
     statusFilter(status) {
-      const statusMap = ['success', 'info']
-      return statusMap[status - 1]
+      const statusMap = ['info', 'success']
+      if (status) {
+        return statusMap[1]
+      } else {
+        return statusMap[0]
+      }
     },
     typeFilter(type) {
       return calendarTypeKeyValue[type]
@@ -170,6 +167,7 @@ export default {
   },
   created() {
     this.getList()
+    this.getRoleList()
   },
   computed: {
     // currentStatus() {
@@ -179,9 +177,9 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      console.log('请求的参数为', this.listQuery)
+      // console.log('请求的参数为', this.listQuery)
       getUserList(this.listQuery).then(response => {
-        console.log('list数据为', response)
+        console.log('用户列表为', response)
         this.list = response.list
         this.total = response.total
 
@@ -193,9 +191,16 @@ export default {
     },
     getPermissionList() {
       getPermissionList(this.listQuery).then(response => {
-        console.log('list数据为', response)
         this.permissionlist = response.data
         // Just to simulate the time of the request
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 1000)
+      })
+    },
+    getRoleList() {
+      getRoleList({}).then(response => {
+        this.roleList = response.list
         setTimeout(() => {
           this.listLoading = false
         }, 0.5 * 1000)
@@ -223,7 +228,6 @@ export default {
     resetTemp() {
       this.temp = {
         name: '',
-        password: '',
         roles: []
       }
     },
@@ -235,13 +239,12 @@ export default {
         this.$refs['dataForm'].clearValidate()
       })
     },
+    changeCheckBox() {
+      this.temp.roleIds = this.roleChecked
+    },
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          // this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-          // this.temp.author = 'vue-element-admin'
-          // console.log('新添加的数据为1', this.$refs['dataForm'])
-          console.log('新添加的数据为2', this.temp)
           addUser(this.temp).then(response => {
             if (response === null) return
             console.log('新增数据成功', response)
@@ -257,24 +260,48 @@ export default {
         }
       })
     },
+    handleforbid(row) {
+      this.resetTemp()
+      this.temp = {
+        id: row.id,
+        name: row.name,
+        roleIds: row.roleIds,
+        available: 0
+      }
+      updateUser(this.temp).then(response => {
+        if (response === null) return
+        this.$notify({
+          title: '成功',
+          message: '禁用成功',
+          type: 'success',
+          duration: 2000,
+          onClose: this.getList()
+        })
+      })
+    },
     handleUpdate(row) {
       // const rowData = row
+      this.resetTemp()
       console.log('数据为', row)
-      this.temp = row
+      this.temp.name = row.name
+      this.temp.id = row.id
       this.dialogStatus = 'update'
+      this.roleChecked = row.roleIds
       this.dialogFormVisible = true
-      this.$refs.tree.setCheckedKeys(row.permissionIds)
       this.$nextTick(() => {
+        // this.temp.roles = []
         this.$refs['dataForm'].clearValidate()
       })
     },
     updateData() {
+      console.log('temp值为', this.temp)
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           // const tempData = Object.assign({}, this.temp)
+          console.log('更新参数为', this.temp)
 
           // tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-          updateRole(this.temp).then(response => {
+          updateUser(this.temp).then(response => {
             if (response === null) return
             console.log('修改成功', response)
             this.dialogFormVisible = false
@@ -291,12 +318,12 @@ export default {
     },
     handleDelete(row) {
       console.log('删除的数据为', row.id)
-      this.$confirm('此操作将永久删除权限, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除用户, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        delUser({ ids: [row.id] }).then(() => {
+        delUser([row.id]).then(() => {
           this.$message({
             type: 'success',
             message: '删除成功!',
@@ -309,6 +336,34 @@ export default {
           message: '已取消删除'
         })
       })
+    },
+    handleResetPassword(data) {
+      this.$confirm('此操作将密码重置为123456, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        resetPassword({ name: data.name }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '重置密码成功!',
+            onClose: this.getList()
+          })
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    },
+    isInArray(arr, value) {
+      for (var i = 0; i < arr.length; i++) {
+        if (value === arr[i]) {
+          return true
+        }
+      }
+      return false
     },
     handleDownload() {
       this.downloadLoading = true

@@ -58,7 +58,7 @@ export function addRole(params) {
 
 export function delRole(params) {
   return request({
-    url: '/role/deleteRole',
+    url: '/role/roleDelete',
     method: 'post',
     data: params
   })
@@ -66,7 +66,7 @@ export function delRole(params) {
 
 export function updateRole(params) {
   return request({
-    url: '/role/updateRole',
+    url: '/role/roleUpdate',
     method: 'post',
     data: params
   })
@@ -74,7 +74,7 @@ export function updateRole(params) {
 
 export function resetPassword(params) {
   return request({
-    url: '/user/setup-forget-password',
+    url: '/userInfo/reset-password',
     method: 'post',
     data: params
   })

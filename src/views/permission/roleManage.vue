@@ -42,11 +42,11 @@
     </div>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="80px" style='width: 400px; margin-left:50px;'>
-        <el-form-item required="true" label="角色名称" prop="name">
+      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="80px" style='width: 360px; margin-left:50px;'>
+        <el-form-item required label="角色名称" prop="name">
           <el-input v-model="temp.name"></el-input>
         </el-form-item>
-        <el-form-item  required label="角色状态" prop="description">
+        <el-form-item  required label="角色描述" prop="description">
           <el-input v-model="temp.description"></el-input>
         </el-form-item>
         <el-form-item  required label="角色权限" prop="permissionIds">
@@ -59,7 +59,6 @@
                 show-checkbox
                 default-expand-all
                 :expand-on-click-node="false"
-                :filter-node-method="filterNode"
                 :check-on-click-node="true"
                 :highlight-current="true"
                 ref="tree">
@@ -77,9 +76,8 @@
     <el-dialog
       title="用户列表"
       :visible.sync="dialogShowUser"
-      width="30%"
-      :before-close="handleClose">
-      <el-table :key='tableKey' :data="list" v-loading="listLoading" border fit highlight-current-row
+      width="40%">
+      <el-table :key='tableKey' :data="userList" v-loading="listLoading" border fit highlight-current-row
       style="width: 100%;">
       <el-table-column align="center" :label="$t('table.id')" width="65">
         <template slot-scope="scope">
@@ -91,17 +89,16 @@
           <span class="link-type">{{scope.row.name}}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="110px" align="center" label="拥有角色">
+      <!-- <el-table-column min-width="110px" align="center" label="拥有角色">
         <template slot-scope="scope">
           <span>{{scope.row.roles}}</span>
         </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('table.status')" width="130px">
+      </el-table-column> -->
+      <!-- <el-table-column class-name="status-col" :label="$t('table.status')" width="130px">
         <template slot-scope="scope">
           <el-tag :type="scope.row.available | statusFilter">{{statusOptions[scope.row.available-1].label}}</el-tag>
-          <!-- <el-tag :type="scope.row.status">{{scope.row.status}}</el-tag> -->
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -200,7 +197,8 @@ export default {
       props: {
         label: 'name'
         // children: 'children'
-      }
+      },
+      userList: []
     }
   },
   filters: {
@@ -277,6 +275,7 @@ export default {
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {
+        this.$refs.tree.setCheckedKeys([])
         this.$refs['dataForm'].clearValidate()
       })
     },
@@ -293,6 +292,7 @@ export default {
             if (response === null) return
             console.log('新增数据成功', response)
             this.dialogFormVisible = false
+            this.resetTemp()
             this.$notify({
               title: '成功',
               message: '创建成功',
@@ -307,15 +307,18 @@ export default {
     handleUpdate(row) {
       // const rowData = row
       console.log('数据为', row)
+      console.log('权限数组为', row.permissionIds)
+      this.getPermissionList()
       this.temp = row
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
-      this.$refs.tree.setCheckedKeys(row.permissionIds)
       this.$nextTick(() => {
+        this.$refs.tree.setCheckedKeys(row.permissionIds)
         this.$refs['dataForm'].clearValidate()
       })
     },
     updateData() {
+      this.temp.permissionIds = this.$refs.tree.getCheckedKeys()
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           // const tempData = Object.assign({}, this.temp)
@@ -325,6 +328,7 @@ export default {
             if (response === null) return
             console.log('修改成功', response)
             this.dialogFormVisible = false
+            this.resetTemp()
             this.$notify({
               title: '成功',
               message: '更新成功',
@@ -360,6 +364,7 @@ export default {
       this.dialogShowUser = true
       getUserListByRoleId({ id: data.id }).then((res) => {
         console.log('用户列表为', res)
+        this.userList = res.data
       })
     },
     handleDownload() {
