@@ -39,7 +39,7 @@ export const constantRouterMap = [
         title: '首页'
       },
       path: 'dashboard',
-      component: () => import('@/views/dashboard/indexLook')
+      component: () => import('../views/dashboard/indexLook')
     }]
   }
 ]
@@ -121,6 +121,22 @@ export const asyncRouterMap = [
       { path: 'seriesDetil/:id', component: () => import('@/views/vedioManage/seriesDetil'), name: 'seriesDetil', meta: { title: '系列详情' }, hidden: true },
       { path: 'vedioList/:id', component: () => import('@/views/vedioManage/vedioList'), name: 'vedioList', meta: { title: '视频列表' }, hidden: true },
       { path: 'vedioDetil/:vid', component: () => import('@/views/vedioManage/vedioDetil'), name: 'vedioDetil', meta: { title: '视频列表' }, hidden: true }
+    ]
+  },
+  {
+    path: '/wechatMenu',
+    component: Layout,
+    redirect: '/wechatMenu/autoReply',
+    name: 'autoReply',
+    meta: {
+      title: '微信菜单',
+      icon: 'table'
+    },
+    children: [
+      { path: 'autoReply', component: () => import('@/views/wechatMenu/autoReply'), name: 'autoReply', meta: { title: '自动回复' }},
+      { path: 'customMenu/:id', component: () => import('@/views/wechatMenu/customMenu'), name: 'customMenu', meta: { title: '自定义菜单' }},
+      { path: 'childMenu/:id', component: () => import('@/views/wechatMenu/childMenu'), name: 'childMenu', meta: { title: '自定义子菜单' }, hidden: true }
+
     ]
   },
   { path: '*', redirect: '/404', hidden: true }
