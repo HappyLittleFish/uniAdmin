@@ -18,14 +18,53 @@ function hasPermission(roles, route) {
  * @param asyncRouterMap
  * @param roles
  */
-function filterAsyncRouter(asyncRouterMap, roles) {
-  const accessedRouters = asyncRouterMap.filter(route => {
-    if (hasPermission(roles, route)) {
-      if (route.children && route.children.length) {
-        route.children = filterAsyncRouter(route.children, roles)
-      }
-      return true
+// function filterAsyncRouter(asyncRouterMap, roles) {
+//   const accessedRouters = asyncRouterMap.filter(route => {
+//     if (hasPermission(roles, route)) {
+//       if (route.children && route.children.length) {
+//         route.children = filterAsyncRouter(route.children, roles)
+//       }
+//       return true
+//     }
+//     return false
+//   })
+//   return accessedRouters
+// }
+
+function filterAsyncRouter(asyncRouterMap, permissionList) {
+  for (const item of permissionList) {
+    var hasParams = /^\/(.*)\//
+    let pathName = ''
+    if (hasParams.test(item.url)) {
+      pathName = '/' + item.url.match(hasParams)[1]
+    } else {
+      pathName = item.url
     }
+  }
+  const accessedRouters = asyncRouterMap.filter(route => {
+
+    for (const item of permissionList) {
+      if (item.resource_type === 'menu') {
+        var hasParams = /^\/(.*)\//
+        let pathName = ''
+        let pathChildren = ''
+        if (hasParams.test(item.url)) {
+          pathName = '/' + item.url.match(hasParams)[1]
+          pathChildren = '/' + item.url.match(hasParams)[2]
+        } else {
+          pathName = item.url
+          pathChildren = item.url
+        }
+        if (route.path === pathName)
+      }
+    }
+    // if (hasPermission(roles, route)) {
+    //   if (route.children && route.children.length) {
+    //     route.children = filterAsyncRouter(route.children, roles)
+    //   }
+    //   return true
+    // }
+
     return false
   })
   return accessedRouters
@@ -45,13 +84,15 @@ const permission = {
   actions: {
     GenerateRoutes({ commit }, data) {
       return new Promise(resolve => {
-        const { roles } = data
-        let accessedRouters
-        if (roles.indexOf('admin') >= 0) {
-          accessedRouters = asyncRouterMap
-        } else {
-          accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-        }
+        // const { roles } = data
+        const { permissionList } = data
+        let accessedRouters = []
+        // if (roles.indexOf('admin') >= 0) {
+        //   accessedRouters = asyncRouterMap
+        // } else {
+        //   accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
+        // }
+        accessedRouters = filterAsyncRouter(asyncRouterMap, permissionList)
         console.log(accessedRouters)
         commit('SET_ROUTERS', accessedRouters)
         resolve()

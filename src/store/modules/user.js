@@ -1,4 +1,5 @@
 import { login, logout } from '@/api/login'
+import { queryPermissionByUserId } from '@/api/permission'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 // import $storage from '@/utils/storage'
 
@@ -10,7 +11,8 @@ const user = {
     avatar: '',
     roles: [],
     userName: '',
-    userPhoto: ''
+    userPhoto: '',
+    userId: ''
   },
 
   mutations: {
@@ -31,6 +33,9 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_USER_ID: (state, userId) => {
+      state.userId = userId
     }
   },
 
@@ -61,7 +66,8 @@ const user = {
           commit('SET_TOKEN', data.token)
           setToken(data.token)
           commit('SET_USER_NAME', data.user.userName)
-          resolve()
+          commit('SET_USER_ID', data.user.id)
+          resolve(response)
         }).catch(error => {
           reject(error)
         })
@@ -71,19 +77,22 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        // getInfo(state.token).then(response => {
-        const data = { roles: ['admin', 'all', 'editor'] }
-        if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-          commit('SET_ROLES', data.roles)
-        } else {
-          reject('getInfo: roles must be a non-null array !')
-        }
-        // commit('SET_NAME', data.name)
-        // commit('SET_AVATAR', data.avatar)
-        resolve(data)
-        // }).catch(error => {
-        //   reject(error)
-        // })
+        console.log('用户userId为', state.userId)
+        queryPermissionByUserId({ userId: state.userId }).then(response => {
+          const data = { roles: ['admin', 'all', 'editor'] }
+          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+            commit('SET_ROLES', data.roles)
+          } else {
+            reject('getInfo: roles must be a non-null array !')
+          }
+          console.log('查询到用户的权限列表为', response)
+
+          // commit('SET_NAME', data.name)
+          // commit('SET_AVATAR', data.avatar)
+          resolve({ data: data, response: response })
+        }).catch(error => {
+          reject(error)
+        })
       })
     },
 

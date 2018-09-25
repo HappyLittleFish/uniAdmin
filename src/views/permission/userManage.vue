@@ -26,7 +26,7 @@
       </el-table-column>
       <el-table-column class-name="status-col" :label="$t('table.status')" width="130px">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.available | statusFilter">{{available?statusOptions[1].label:statusOptions[0].label}}</el-tag>
+          <el-tag :type="scope.row.available | statusFilter">{{scope.row.available?statusOptions[1].label:statusOptions[0].label}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" :label="$t('table.actions')" width="400" class-name="small-padding fixed-width">
