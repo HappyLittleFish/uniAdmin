@@ -1,22 +1,20 @@
 <template>
 <div class="tree-container">
   <div class="custom-tree-container">
-    <el-input
+    <!-- <div class="filter-container">
+      <el-input
       placeholder="输入关键字进行过滤"
       v-model="filterText">
-    </el-input>
-    <!-- <div class="block">
-      <p>使用 render-content</p>
-      <el-tree
-        :data="data4"
-        node-key="id"
-        default-expand-all
-        :expand-on-click-node="false"
-        :filter-node-method="filterNode"
-        :render-content="renderContent"
-        ref="tree2">
-      </el-tree>
+      </el-input>
+      <el-button class="filter-item" style="margin-left: 5px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
     </div> -->
+    <div class="filter-container">
+      <el-input style="width:255px" class="filter-item filter-item-wap" placeholder="输入关键字进行过滤"
+      v-model="filterText">
+      </el-input>
+      <el-button class="filter-item" style="margin-left: 5px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
+    </div>
+
     <div class="block">
       <el-tree
         :data="list"
@@ -66,6 +64,9 @@
         <el-form-item required label="权限名称" prop="name">
           <el-input v-model="temp.name"></el-input>
         </el-form-item>
+        <el-form-item required label="权限标识" prop="label">
+          <el-input v-model="temp.label"></el-input>
+        </el-form-item>
         <el-form-item required label="资源类型">
           <el-select class="filter-item" v-model="temp.resourceType" placeholder="请选择">
             <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value">
@@ -111,6 +112,7 @@ export default {
         url: '',
         permission: '',
         parentId: '',
+        label: '',
         // parentIds: '',
         available: ''
       },
@@ -122,8 +124,9 @@ export default {
       },
       dialogFormVisible: false,
       textMap: {
-        update: 'Edit',
-        create: 'Create'
+        update: '编辑',
+        create: '新增',
+        createTop: '新增'
       },
       dialogStatus: '',
       rules: {
@@ -213,7 +216,7 @@ export default {
       console.log('更新数据')
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          console.log('新添加的数据为', this.temp)
+          console.log('更新的参数为', this.temp)
           permissionUpdate(this.temp).then(response => {
             if (response === null) return
             console.log('更新数据成功', response)
@@ -247,8 +250,13 @@ export default {
     // 编辑权限
     edit(data) {
       console.log('编辑的数据为', data)
-      this.dialogStatus = 'edit'
+      this.dialogStatus = 'Edit'
       this.temp = data
+      this.dialogFormVisible = true
+    },
+    handleCreate() {
+      this.dialogStatus = 'create'
+      this.temp.parentId = 0
       this.dialogFormVisible = true
     },
     // 删除权限
@@ -283,7 +291,8 @@ export default {
         permission: '',
         parentId: '',
         // parentIds: '',
-        available: ''
+        available: '',
+        label: ''
       }
     },
 
@@ -299,6 +308,9 @@ export default {
 .tree-container {
   display: flex;
   flex-direction: row;
+  .filter-item {
+  // width: 80px
+  }
   .custom-tree-node {
     flex: 1;
     display: flex;
@@ -313,6 +325,19 @@ export default {
   }
   .el-form-item {
     margin-bottom: 16px;
+  }
+}
+@media (min-width: 320px) and (max-width: 640px) {
+  .filter-item {
+    font-size: 12px;
+    width: 60px;
+    padding:  10px 6px;
+    margin: 0px;
+  }
+  .filter-item-wap {
+    width: 60px ;
+    padding: 0px;
+    margin: 0;
   }
 }
 </style>
