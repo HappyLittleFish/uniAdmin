@@ -12,7 +12,8 @@ const user = {
     roles: [],
     userName: '',
     userPhoto: '',
-    userId: ''
+    userId: '',
+    permissionList: []
   },
 
   mutations: {
@@ -36,6 +37,9 @@ const user = {
     },
     SET_USER_ID: (state, userId) => {
       state.userId = userId
+    },
+    SET_PERMISSIONLIST: (state, permissionList) => {
+      state.permissionList = permissionList
     }
   },
 
@@ -63,6 +67,7 @@ const user = {
         login({ userName: username, userPwd: userInfo.password }).then(response => {
           const data = response.data
           console.log('用户信息', response)
+          // console.log('用户信息', response)
           commit('SET_TOKEN', data.token)
           setToken(data.token)
           commit('SET_USER_NAME', data.user.userName)
@@ -89,6 +94,7 @@ const user = {
 
           // commit('SET_NAME', data.name)
           // commit('SET_AVATAR', data.avatar)
+          commit('SET_PERMISSIONLIST', response.data)
           resolve({ data: data, response: response })
         }).catch(error => {
           reject(error)
@@ -102,6 +108,7 @@ const user = {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
+          commit('SET_PERMISSIONLIST', [])
           removeToken()
           resolve()
         }).catch(error => {
@@ -114,6 +121,7 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
+        commit('SET_PERMISSIONLIST', [])
         removeToken()
         resolve()
       })

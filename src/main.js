@@ -26,12 +26,15 @@ import '@/permission' // permission control
 
 import * as filters from './filters' // global filters
 
+import permission from '@/directive/permission/index.js'
+
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
 Vue.use(ElementUI, { locale })
+Vue.use(permission)
 
 Vue.config.productionTip = false
 Object.defineProperty(Vue.prototype, '$axios', { value: axios })

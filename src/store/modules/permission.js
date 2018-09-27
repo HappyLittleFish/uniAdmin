@@ -33,8 +33,8 @@ import { asyncRouterMap, constantRouterMap } from '@/router'
 
 function filterAsyncRouter(asyncRouterMap, permissionList) {
   const accessedRouters = asyncRouterMap.filter(route => {
-    console.log('权限列表为', permissionList)
-    console.log('路由列表为', asyncRouterMap)
+    // console.log('权限列表为', permissionList)
+    // console.log('路由列表为', asyncRouterMap)
 
     let hasPermissionOrNot = false
     for (const item of permissionList) {
@@ -50,7 +50,7 @@ function filterAsyncRouter(asyncRouterMap, permissionList) {
         //   pathChildren = item.url
         // }
         if (route.name === item.label) {
-          console.log('具有权限', item.label)
+          // console.log('具有权限', item.label)
           if (route.children && route.children.length) {
             route.children = filterAsyncRouter(route.children, permissionList)
             if (route.children.length) {
@@ -61,7 +61,7 @@ function filterAsyncRouter(asyncRouterMap, permissionList) {
         } else if (route.children && route.children.length) {
           route.children = filterAsyncRouter(route.children, permissionList)
           if (route.children.length) {
-            console.log('子路由满足')
+            // console.log('子路由满足')
             hasPermissionOrNot = true
           }
         }
@@ -121,9 +121,9 @@ const permission = {
         // } else {
         //   accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
         // }
-        console.log('过滤前路由', asyncRouterMap)
+        // console.log('过滤前路由', asyncRouterMap)
         accessedRouters = filterAsyncRouter(asyncRouterMap, permissionList)
-        console.log('过滤后路由', accessedRouters)
+        // console.log('过滤后路由', accessedRouters)
         commit('SET_ROUTERS', accessedRouters)
         resolve()
       })

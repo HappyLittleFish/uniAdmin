@@ -12,7 +12,7 @@
       <el-input style="width:255px" class="filter-item filter-item-wap" placeholder="输入关键字进行过滤"
       v-model="filterText">
       </el-input>
-      <el-button class="filter-item" style="margin-left: 5px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
+      <el-button class="filter-item" v-permission="'permissionConfig:add'" style="margin-left: 5px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
     </div>
 
     <div class="block">
@@ -101,6 +101,7 @@
 <script>
 // import { getPermissionList, permissionAdd, permissionUpdate, permissionDel } from '@/api/permission'
 import { getPermissionList, permissionAdd, permissionUpdate, permissionDel } from '@/api/permission'
+import { mapGetters } from 'vuex'
 // var id = 1000
 export default {
   data() {
@@ -155,8 +156,14 @@ export default {
       this.$refs.tree2.filter(val)
     }
   },
+  computed: {
+    ...mapGetters([
+      'permissionList'
+    ])
+  },
   created() {
     this.getList()
+    console.log('此页面用户权限', this.permissionList)
   },
   methods: {
     getList() {
@@ -308,9 +315,6 @@ export default {
 .tree-container {
   display: flex;
   flex-direction: row;
-  .filter-item {
-  // width: 80px
-  }
   .custom-tree-node {
     flex: 1;
     display: flex;
