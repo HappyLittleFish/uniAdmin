@@ -39,9 +39,10 @@ export const constantRouterMap = [
         title: '首页'
       },
       path: 'dashboard',
-      component: () => import('../views/dashboard/indexLook')
+      component: () => import('@/views/dashboard/indexLook')
     }]
-  }
+  },
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 export default new Router({
@@ -52,9 +53,23 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
+    path: '/wechatWithdraw',
+    component: Layout,
+    redirect: '/wechatWithdraw/pendingWithdraw',
+    name: 'wechatWithdraw',
+    meta: {
+      title: '微信提现',
+      icon: 'money'
+    },
+    children: [
+      { path: 'pendingWithdraw', component: import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
+      { path: 'withdrawRecord', component: import('@/views/wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }}
+    ]
+  },
+  {
     path: '/permission',
     component: Layout,
-    redirect: '/permission/userList',
+    redirect: '/permission/userManage',
     name: 'permission',
     meta: {
       title: '权限管理',
@@ -66,79 +81,78 @@ export const asyncRouterMap = [
       { path: 'userManage', component: () => import('@/views/permission/userManage'), name: 'userManage', meta: { title: '用户管理' }}
     ]
   },
-  {
-    path: '/studyManage',
-    component: Layout,
-    redirect: '/studyManage/dailyTest',
-    name: 'studyManage',
-    meta: {
-      title: '测题管理',
-      icon: 'form'
-    },
-    children: [
-      { path: 'dailyTest', component: () => import('@/views/studyManage/dailyTest'), name: 'dailyTest', meta: { title: '每日一次题目列表' }},
-      { path: 'dailyTestDetail', component: () => import('@/views/studyManage/dailyTestDetail'), name: 'dailyTestDetail', meta: { title: '每日一次题目详情' }}
-    ]
-  },
-  {
-    path: '/activity',
-    component: Layout,
-    redirect: '/activity/activityManage',
-    name: 'activity',
-    meta: {
-      title: '运营活动',
-      icon: 'table'
-    },
-    children: [
-      { path: 'activityManage', component: () => import('@/views/activity/activityManage'), name: 'activityManage', meta: { title: '活动管理' }},
-      { path: 'awardManage', component: () => import('@/views/activity/awardManage'), name: 'awardManage', meta: { title: '奖品管理' }}
-    ]
-  },
-  {
-    path: '/wechatWithdraw',
-    component: Layout,
-    redirect: '/wechatWithdraw/pendingWithdraw',
-    name: 'wechatWithdraw',
-    meta: {
-      title: '微信提现',
-      icon: 'money'
-    },
-    children: [
-      { path: 'pendingWithdraw', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
-      { path: 'withdrawRecord', component: () => import('@/views/wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }}
-    ]
-  },
-  {
-    path: '/vedioManage',
-    component: Layout,
-    redirect: '/vedioManage/vedioSeries',
-    name: 'vedioManage',
-    meta: {
-      title: '视频管理',
-      icon: 'international'
-    },
-    children: [
-      { path: 'vedioSeries', component: () => import('@/views/vedioManage/vedioSeries'), name: 'vedioSeries', meta: { title: '视频系列列表' }},
-      { path: 'seriesDetil/:id', component: () => import('@/views/vedioManage/seriesDetil'), name: 'seriesDetil', meta: { title: '系列详情' }, hidden: true },
-      { path: 'vedioList/:id', component: () => import('@/views/vedioManage/vedioList'), name: 'vedioList', meta: { title: '视频列表' }, hidden: true },
-      { path: 'vedioDetil/:vid', component: () => import('@/views/vedioManage/vedioDetil'), name: 'vedioDetil', meta: { title: '视频列表' }, hidden: true }
-    ]
-  },
+  // {
+  //   path: '/studyManage',
+  //   component: Layout,
+  //   redirect: '/studyManage/dailyTest',
+  //   name: 'studyManage',
+  //   meta: {
+  //     title: '测题管理',
+  //     icon: 'form'
+  //   },
+  //   children: [
+  //     { path: 'dailyTest', component: () => import('@/views/studyManage/dailyTest'), name: 'dailyTest', meta: { title: '每日一次题目列表' }},
+  //     { path: 'dailyTestDetail', component: () => import('@/views/studyManage/dailyTestDetail'), name: 'dailyTestDetail', meta: { title: '每日一次题目详情' }}
+  //   ]
+  // },
+  // {
+  //   path: '/activity',
+  //   component: Layout,
+  //   redirect: '/activity/activityManage',
+  //   name: 'activity',
+  //   meta: {
+  //     title: '运营活动',
+  //     icon: 'table'
+  //   },
+  //   children: [
+  //     { path: 'activityManage', component: () => import('@/views/activity/activityManage'), name: 'activityManage', meta: { title: '活动管理' }},
+  //     { path: 'awardManage', component: () => import('@/views/activity/awardManage'), name: 'awardManage', meta: { title: '奖品管理' }}
+  //   ]
+  // },
+  // {
+  //   path: '/wechatWithdraw',
+  //   component: Layout,
+  //   redirect: '/wechatWithdraw/pendingWithdraw',
+  //   name: 'wechatWithdraw',
+  //   meta: {
+  //     title: '微信提现',
+  //     icon: 'money'
+  //   },
+  //   children: [
+  //     { path: 'pendingWithdraw', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
+  //     { path: 'withdrawRecord', component: () => import('@/views/wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }}
+  //   ]
+  // },
+  // {
+  //   path: '/vedioManage',
+  //   component: Layout,
+  //   redirect: '/vedioManage/vedioSeries',
+  //   name: 'vedioManage',
+  //   meta: {
+  //     title: '视频管理',
+  //     icon: 'international'
+  //   },
+  //   children: [
+  //     { path: 'vedioSeries', component: () => import('@/views/vedioManage/vedioSeries'), name: 'vedioSeries', meta: { title: '视频系列列表' }},
+  //     { path: 'seriesDetil/:id', component: () => import('@/views/vedioManage/seriesDetil'), name: 'seriesDetil', meta: { title: '系列详情' }, hidden: true },
+  //     { path: 'vedioList/:id', component: () => import('@/views/vedioManage/vedioList'), name: 'vedioList', meta: { title: '视频列表' }, hidden: true },
+  //     { path: 'vedioDetil/:vid', component: () => import('@/views/vedioManage/vedioDetil'), name: 'vedioDetil', meta: { title: '视频列表' }, hidden: true }
+  //   ]
+  // },
   {
     path: '/wechatMenu',
     component: Layout,
     redirect: '/wechatMenu/autoReply',
-    name: 'autoReply',
+    name: 'wechatMenu',
     meta: {
       title: '微信菜单',
       icon: 'table'
     },
     children: [
-      { path: 'autoReply', component: () => import('@/views/wechatMenu/autoReply'), name: 'autoReply', meta: { title: '自动回复' }},
-      { path: 'customMenu/:id', component: () => import('@/views/wechatMenu/customMenu'), name: 'customMenu', meta: { title: '自定义菜单' }},
-      { path: 'childMenu/:id', component: () => import('@/views/wechatMenu/childMenu'), name: 'childMenu', meta: { title: '自定义子菜单' }, hidden: true }
-
+      { path: 'autoReply', component: import('@/views/wechatMenu/autoReply'), name: 'autoReply', meta: { title: '自动回复' }},
+      { path: 'customMenu/:id', component: import('@/views/wechatMenu/customMenu'), name: 'customMenu', meta: { title: '自定义菜单' }},
+      { path: 'childMenu/:id', component: import('@/views/wechatMenu/childMenu'), name: 'childMenu', meta: { title: '自定义子菜单' }, hidden: true }
     ]
-  },
-  { path: '*', redirect: '/404', hidden: true }
+  }
+  // { path: '*', redirect: '/404', hidden: true }
 ]

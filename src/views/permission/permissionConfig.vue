@@ -79,7 +79,7 @@
         <el-form-item required label="资源路径" prop="url">
           <el-input v-model="temp.url"></el-input>
         </el-form-item>
-        <el-form-item required label="权限描述" prop="permission">
+        <el-form-item required label="权限描述" prop="permission" placeholder="格式为：页面名称:功能">
           <el-input v-model="temp.permission"></el-input>
         </el-form-item>
         <el-form-item required label="父编号" prop="parentId">
