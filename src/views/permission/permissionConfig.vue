@@ -291,13 +291,14 @@ export default {
   display: flex;
   flex-direction: row;
   .custom-tree-node {
-    flex: 1;
+    flex: 2;
     display: flex;
     align-items: center;
+    flex-direction: row;
     justify-content: space-between;
     font-size: 14px;
     padding-right: 8px;
-    width: 300px;
+    width: 400px;
   }
   .tree-content {
     flex-grow: 1

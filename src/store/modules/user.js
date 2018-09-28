@@ -1,5 +1,6 @@
 import { login, logout } from '@/api/login'
 import { queryPermissionByUserId } from '@/api/permission'
+// import { queryPermissionByUserId, queryButtonPermissionByUserId } from '@/api/permission'
 import { getToken, setToken, removeToken, setUserId, getUserId, removeUserId } from '@/utils/auth'
 // import $storage from '@/utils/storage'
 
@@ -13,7 +14,9 @@ const user = {
     userName: '',
     userPhoto: '',
     userId: '',
-    permissionList: []
+    permissionList: [],
+    menuPermissionList: [], // 用户菜单权限列表
+    buttonPermissionList: [] // 用户按钮权限列表
   },
 
   mutations: {
@@ -40,6 +43,12 @@ const user = {
     },
     SET_PERMISSIONLIST: (state, permissionList) => {
       state.permissionList = permissionList
+    },
+    SET_MENU_PERMISSIONLIST: (state, menuPermissionList) => {
+      state.menuPermissionList = menuPermissionList
+    },
+    SET_BUTTON_PERMISSIONLIST: (state, buttonPermissionList) => {
+      state.buttonPermissionList = buttonPermissionList
     }
   },
 
@@ -86,15 +95,24 @@ const user = {
         console.log('用户userId为', getUserId())
         const userId = getUserId()
         queryPermissionByUserId({ userId }).then(response => {
-          console.log('查询到用户的权限列表为', response)
+          console.log('查询到用户的菜单权限列表为', response)
 
           // commit('SET_NAME', data.name)
           // commit('SET_AVATAR', data.avatar)
           commit('SET_PERMISSIONLIST', response.data)
+          // commit('SET_MENU_PERMISSIONLIST', response.data)
           resolve()
-        }).catch(error => {
-          reject(error)
         })
+        // .then(() => {
+        //   queryButtonPermissionByUserId({ userId, resourceType: 'button' }).then(response => {
+        //     console.log('查询到用户的按钮权限列表为', response)
+        //     commit('SET_BUTTON_PERMISSIONLIST', response.data)
+        //     resolve()
+        //   })
+        // })
+          .catch(error => {
+            reject(error)
+          })
       })
     },
 
@@ -103,7 +121,9 @@ const user = {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')
-          commit('SET_PERMISSIONLIST', [])
+          // commit('SET_PERMISSIONLIST', [])
+          commit('SET_MENU_PERMISSIONLIST', [])
+          commit('SET_BUTTON_PERMISSIONLIST', [])
           removeToken()
           removeUserId()
           resolve()
@@ -117,7 +137,9 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
-        commit('SET_PERMISSIONLIST', [])
+        // commit('SET_PERMISSIONLIST', [])
+        commit('SET_MENU_PERMISSIONLIST', [])
+        commit('SET_BUTTON_PERMISSIONLIST', [])
         removeToken()
         removeUserId()
         resolve()

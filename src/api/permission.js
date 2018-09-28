@@ -40,6 +40,14 @@ export function queryPermissionByUserId(params) {
   })
 }
 
+export function queryButtonPermissionByUserId(params) {
+  return request({
+    url: '/permission/queryByUserIdButton',
+    method: 'post',
+    data: params
+  })
+}
+
 export function getRoleList(params) {
   return request({
     url: '/role/roleList',

@@ -8,6 +8,8 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '../views/layout/Layout'
+import pendingWithdraw from '@/views/wechatWithdraw/pendingWithdraw'
+import withdrawRecord from '@/views/wechatWithdraw/withdrawRecord'
 
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
@@ -51,6 +53,21 @@ export default new Router({
 })
 
 export const asyncRouterMap = [
+  // {
+  //   path: '/wechatWithdraw',
+  //   component: Layout,
+  //   redirect: '/wechatWithdraw/pendingWithdraw',
+  //   name: 'wechatWithdraw',
+  //   meta: {
+  //     title: '微信提现',
+  //     icon: 'money'
+  //   },
+  //   children: [
+  //     { path: 'pendingWithdraw', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
+  //     { path: 'withdrawRecord', component: () => import('@/views//wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }},
+  //     { path: 'userManage1', component: () => import('@/views/permission/userManage'), name: 'userManage1', meta: { title: '用户管理' }}
+  //   ]
+  // },
   {
     path: '/wechatWithdraw',
     component: Layout,
@@ -61,9 +78,9 @@ export const asyncRouterMap = [
       icon: 'money'
     },
     children: [
-      { path: 'pendingWithdraw', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
-      { path: 'withdrawRecord', component: () => import('@/views//wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }},
-      { path: 'userManage1', component: () => import('@/views/permission/userManage'), name: 'userManage1', meta: { title: '用户管理' }}
+      { path: 'pendingWithdraw', component: pendingWithdraw, name: 'pendingWithdraw', meta: { title: '待处理提现' }},
+      { path: 'withdrawRecord', component: withdrawRecord, name: 'withdrawRecord', meta: { title: '提现记录' }}
+      // { path: 'userManage1', component: () => import('@/views/permission/userManage'), name: 'userManage1', meta: { title: '用户管理' }}
     ]
   },
   {
