@@ -56,13 +56,6 @@
     </div>
   </div>
   <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-    <!-- name	String	权限名称（资源名称）
-    resourceType	String	资源类型[menu,button]
-    url	String	资源路径
-    permissions	String	权限字符串,menu例子：role:*，button例子：role:create,role:update,role:delete,role:view
-    parentId	integer	父编号
-    parentIds	integer	父编号列表
-    available	integer	默认值为false -->
       <el-form ref="dataForm" :model="temp" label-position="left" label-width="80px" style='width: 400px; margin-left:50px;'>
         <el-form-item required label="权限名称" prop="name">
           <el-input v-model="temp.name"></el-input>
@@ -102,10 +95,9 @@
 </template>
 
 <script>
-// import { getPermissionList, permissionAdd, permissionUpdate, permissionDel } from '@/api/permission'
 import { getPermissionList, permissionAdd, permissionUpdate, permissionDel } from '@/api/permission'
 import { mapGetters } from 'vuex'
-// var id = 1000
+
 export default {
   data() {
     return {
@@ -175,17 +167,6 @@ export default {
       getPermissionList(this.listQuery).then(response => {
         console.log('list数据为', response)
         this.list = response.data
-        // for (let i = 0; i < this.list.length; i++) {
-        // this.list[i].label = this.list[i].name
-        // this.list[i].children = this.list[i].child
-        // this.checkHasChildrenOrNot(this.list[i])
-        // if (this.list[i].hasOwnProperty('children') && this.list[i].children.length) {
-        //   for (let n = 0; n < this.list[i].children.length; n++) {
-        //     this.list[i].children[n].label = this.list[i].children[n].name
-        //   }
-        // }
-        // }
-        // this.total = response.total
 
         // Just to simulate the time of the request
         setTimeout(() => {
@@ -251,11 +232,6 @@ export default {
       this.temp.parentId = data.id
       this.temp.url = data.url
       this.dialogFormVisible = true
-      // const newChild = { id: id++, label: 'testtest', children: [] }
-      // if (!data.children) {
-      //   this.$set(data, 'children', [])
-      // }
-      // data.children.push(newChild)
     },
     // 编辑权限
     edit(data) {
@@ -271,10 +247,6 @@ export default {
     },
     // 删除权限
     remove(data) {
-      // const parent = node.parent
-      // const children = parent.data.children || parent.data
-      // const index = children.findIndex(d => d.id === data.id)
-      // children.splice(index, 1)
       this.$confirm('此操作将永久删除权限, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

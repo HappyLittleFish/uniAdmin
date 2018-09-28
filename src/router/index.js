@@ -53,20 +53,6 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
-    path: '/wechatWithdraw',
-    component: Layout,
-    redirect: '/wechatWithdraw/pendingWithdraw',
-    name: 'wechatWithdraw',
-    meta: {
-      title: '微信提现',
-      icon: 'money'
-    },
-    children: [
-      { path: 'pendingWithdraw', component: import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
-      { path: 'withdrawRecord', component: import('@/views/wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }}
-    ]
-  },
-  {
     path: '/permission',
     component: Layout,
     redirect: '/permission/userManage',
@@ -109,20 +95,20 @@ export const asyncRouterMap = [
   //     { path: 'awardManage', component: () => import('@/views/activity/awardManage'), name: 'awardManage', meta: { title: '奖品管理' }}
   //   ]
   // },
-  // {
-  //   path: '/wechatWithdraw',
-  //   component: Layout,
-  //   redirect: '/wechatWithdraw/pendingWithdraw',
-  //   name: 'wechatWithdraw',
-  //   meta: {
-  //     title: '微信提现',
-  //     icon: 'money'
-  //   },
-  //   children: [
-  //     { path: 'pendingWithdraw', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
-  //     { path: 'withdrawRecord', component: () => import('@/views/wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }}
-  //   ]
-  // },
+  {
+    path: '/wechatWithdraw',
+    component: Layout,
+    redirect: '/wechatWithdraw/pendingWithdraw',
+    name: 'wechatWithdraw',
+    meta: {
+      title: '微信提现',
+      icon: 'money'
+    },
+    children: [
+      { path: 'pendingWithdraw', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
+      { path: 'withdrawRecord', component: () => import('@/views/wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }}
+    ]
+  },
   // {
   //   path: '/vedioManage',
   //   component: Layout,
@@ -149,9 +135,9 @@ export const asyncRouterMap = [
       icon: 'table'
     },
     children: [
-      { path: 'autoReply', component: import('@/views/wechatMenu/autoReply'), name: 'autoReply', meta: { title: '自动回复' }},
-      { path: 'customMenu/:id', component: import('@/views/wechatMenu/customMenu'), name: 'customMenu', meta: { title: '自定义菜单' }},
-      { path: 'childMenu/:id', component: import('@/views/wechatMenu/childMenu'), name: 'childMenu', meta: { title: '自定义子菜单' }, hidden: true }
+      { path: 'autoReply', component: () => import('@/views/wechatMenu/autoReply'), name: 'autoReply', meta: { title: '自动回复' }},
+      { path: 'customMenu/:id', component: () => import('@/views/wechatMenu/customMenu'), name: 'customMenu', meta: { title: '自定义菜单' }},
+      { path: 'childMenu/:id', component: () => import('@/views/wechatMenu/childMenu'), name: 'childMenu', meta: { title: '自定义子菜单' }, hidden: true }
     ]
   }
   // { path: '*', redirect: '/404', hidden: true }

@@ -79,11 +79,6 @@ const permission = {
         // const { roles } = data
         const { permissionList } = data
         let accessedRouters = []
-        // if (roles.indexOf('admin') >= 0) {
-        //   accessedRouters = asyncRouterMap
-        // } else {
-        //   accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-        // }
         console.log('过滤前路由', asyncRouterMap)
         accessedRouters = filterAsyncRouter(asyncRouterMap, permissionList)
         console.log('过滤后路由', accessedRouters)

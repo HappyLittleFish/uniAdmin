@@ -84,18 +84,12 @@ const user = {
       return new Promise((resolve, reject) => {
         console.log('用户userId为', state.userId)
         queryPermissionByUserId({ userId: state.userId }).then(response => {
-          const data = { roles: ['admin', 'all', 'editor'] }
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
           console.log('查询到用户的权限列表为', response)
 
           // commit('SET_NAME', data.name)
           // commit('SET_AVATAR', data.avatar)
           commit('SET_PERMISSIONLIST', response.data)
-          resolve({ data: data, response: response })
+          resolve()
         }).catch(error => {
           reject(error)
         })

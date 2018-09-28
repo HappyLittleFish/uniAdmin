@@ -26,7 +26,7 @@ import '@/permission' // permission control
 
 import * as filters from './filters' // global filters
 
-import permission from '@/directive/permission/index.js'
+import permission from '@/directive/permission/index'
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {
