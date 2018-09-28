@@ -1,6 +1,6 @@
 import { login, logout } from '@/api/login'
 import { queryPermissionByUserId } from '@/api/permission'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setUserId, getUserId, removeUserId } from '@/utils/auth'
 // import $storage from '@/utils/storage'
 
 const user = {
@@ -70,6 +70,7 @@ const user = {
           // console.log('用户信息', response)
           commit('SET_TOKEN', data.token)
           setToken(data.token)
+          setUserId(data.user.id)
           commit('SET_USER_NAME', data.user.userName)
           commit('SET_USER_ID', data.user.id)
           resolve(response)
@@ -82,8 +83,9 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        console.log('用户userId为', state.userId)
-        queryPermissionByUserId({ userId: state.userId }).then(response => {
+        console.log('用户userId为', getUserId())
+        const userId = getUserId()
+        queryPermissionByUserId({ userId }).then(response => {
           console.log('查询到用户的权限列表为', response)
 
           // commit('SET_NAME', data.name)
@@ -101,9 +103,9 @@ const user = {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
           commit('SET_PERMISSIONLIST', [])
           removeToken()
+          removeUserId()
           resolve()
         }).catch(error => {
           reject(error)
@@ -117,6 +119,7 @@ const user = {
         commit('SET_TOKEN', '')
         commit('SET_PERMISSIONLIST', [])
         removeToken()
+        removeUserId()
         resolve()
       })
     }

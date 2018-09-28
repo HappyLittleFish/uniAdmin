@@ -8,15 +8,16 @@ import { getToken } from '@/utils/auth' // getToken from cookie
 NProgress.configure({ showSpinner: false })// NProgress Configuration
 
 // permission judge function
-function hasPermission(roles, permissionRoles) {
-  if (roles.indexOf('admin') >= 0) return true // admin permission passed directly
-  if (!permissionRoles) return true
-  return roles.some(role => permissionRoles.indexOf(role) >= 0)
-}
+// function hasPermission(roles, permissionRoles) {
+//   if (roles.indexOf('admin') >= 0) return true // admin permission passed directly
+//   if (!permissionRoles) return true
+//   return roles.some(role => permissionRoles.indexOf(role) >= 0)
+// }
 
 const whiteList = ['/login']// no redirect whitelist
 
 router.beforeEach((to, from, next) => {
+  console.log('路由去哪', to)
   NProgress.start() // start progress bar
   if (getToken()) { // determine if there has token
     /* has token*/
@@ -25,6 +26,7 @@ router.beforeEach((to, from, next) => {
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
       if (store.getters.permissionList.length === 0) { // 判断当前用户是否已拉取完user_info信息
+        console.log('进入路由权限列表不存在的情况')
         store.dispatch('GetInfo').then(res => { // 拉取user_info
           // console.log('用户角色权限', res.data.roles)
           // console.log('用户权限列表', res.response.data)
@@ -44,11 +46,14 @@ router.beforeEach((to, from, next) => {
         })
       } else {
         // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
-        if (hasPermission(store.getters.roles, to.meta.roles)) {
-          next()//
-        } else {
-          next({ path: '/401', replace: true, query: { noGoBack: true }})
-        }
+        console.log('怎么突然跑这来了')
+        // if (hasPermission(store.getters.roles, to.meta.roles)) {
+        //   next()//
+        // } else {
+        // next({ path: '/401', replace: true, query: { noGoBack: true }})
+        // }
+        next()
+        // next({ ...to, replace: true })
       }
     }
   } else {
