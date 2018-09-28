@@ -1,5 +1,39 @@
-import { asyncRouterMap, constantRouterMap } from '@/router'
+// import { asyncRouterMap, constantRouterMap } from '@/router'
+import { constantRouterMap } from '@/router'
+import Layout from '@/views/layout/Layout'
+import pendingWithdraw from '@/views/wechatWithdraw/pendingWithdraw'
 
+const asyncRouterMap = [
+  {
+    path: '/wechatWithdraw',
+    component: Layout,
+    redirect: '/wechatWithdraw/pendingWithdraw',
+    name: 'wechatWithdraw',
+    meta: {
+      title: '微信提现',
+      icon: 'money'
+    },
+    children: [
+      { path: 'pendingWithdraw', component: pendingWithdraw, name: 'pendingWithdraw', meta: { title: '待处理提现' }},
+      { path: 'withdrawRecord', component: () => import('@/views//wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }},
+      { path: 'userManage1', component: () => import('@/views/permission/userManage'), name: 'userManage1', meta: { title: '用户管理' }}
+    ]
+  },
+  {
+    path: '/permission',
+    component: Layout,
+    redirect: '/permission/userManage',
+    name: 'permission',
+    meta: {
+      title: '权限管理',
+      icon: 'user'
+    },
+    children: [
+      { path: 'permissionConfig', component: () => import('@/views/permission/permissionConfig'), name: 'permissionConfig', meta: { title: '权限配置' }},
+      { path: 'roleManage', component: () => import('@/views/permission/roleManage'), name: 'roleManage', meta: { title: '角色管理' }},
+      { path: 'userManage', component: () => import('@/views/permission/userManage'), name: 'userManage', meta: { title: '用户管理' }}
+    ]
+  }]
 /**
  * 通过meta.role判断是否与当前用户权限匹配
  * @param roles

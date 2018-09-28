@@ -41,8 +41,7 @@ export const constantRouterMap = [
       path: 'dashboard',
       component: () => import('@/views/dashboard/indexLook')
     }]
-  },
-  { path: '*', redirect: '/404', hidden: true }
+  }
 ]
 
 export default new Router({
@@ -52,6 +51,21 @@ export default new Router({
 })
 
 export const asyncRouterMap = [
+  {
+    path: '/wechatWithdraw',
+    component: Layout,
+    redirect: '/wechatWithdraw/pendingWithdraw',
+    name: 'wechatWithdraw',
+    meta: {
+      title: '微信提现',
+      icon: 'money'
+    },
+    children: [
+      { path: 'pendingWithdraw', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
+      { path: 'withdrawRecord', component: () => import('@/views//wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }},
+      { path: 'userManage1', component: () => import('@/views/permission/userManage'), name: 'userManage1', meta: { title: '用户管理' }}
+    ]
+  },
   {
     path: '/permission',
     component: Layout,
@@ -66,7 +80,22 @@ export const asyncRouterMap = [
       { path: 'roleManage', component: () => import('@/views/permission/roleManage'), name: 'roleManage', meta: { title: '角色管理' }},
       { path: 'userManage', component: () => import('@/views/permission/userManage'), name: 'userManage', meta: { title: '用户管理' }}
     ]
-  },
+  }
+  // {
+  //   path: '/wechatWithdraw',
+  //   component: Layout,
+  //   redirect: '/wechatWithdraw/pendingWithdraw',
+  //   name: 'wechatWithdraw',
+  //   meta: {
+  //     title: '微信提现',
+  //     icon: 'money'
+  //   },
+  //   children: [
+  //     { path: 'permissionConfig', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
+  //     { path: 'withdrawRecord', component: () => import('@/views//wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }},
+  //     { path: 'userManage1', component: () => import('@/views/permission/userManage'), name: 'userManage1', meta: { title: '用户管理' }}
+  //   ]
+  // }
   // {
   //   path: '/studyManage',
   //   component: Layout,
@@ -95,20 +124,20 @@ export const asyncRouterMap = [
   //     { path: 'awardManage', component: () => import('@/views/activity/awardManage'), name: 'awardManage', meta: { title: '奖品管理' }}
   //   ]
   // },
-  {
-    path: '/wechatWithdraw',
-    component: Layout,
-    redirect: '/wechatWithdraw/pendingWithdraw',
-    name: 'wechatWithdraw',
-    meta: {
-      title: '微信提现',
-      icon: 'money'
-    },
-    children: [
-      { path: 'pendingWithdraw', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
-      { path: 'withdrawRecord', component: () => import('@/views/wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }}
-    ]
-  },
+  // {
+  //   path: '/wechatWithdraw',
+  //   component: Layout,
+  //   redirect: '/wechatWithdraw/pendingWithdraw',
+  //   name: 'wechatWithdraw',
+  //   meta: {
+  //     title: '微信提现',
+  //     icon: 'money'
+  //   },
+  //   children: [
+  //     { path: 'pendingWithdraw', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
+  //     { path: 'withdrawRecord', component: () => import('@/views/wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }}
+  //   ]
+  // }
   // {
   //   path: '/vedioManage',
   //   component: Layout,
@@ -125,20 +154,20 @@ export const asyncRouterMap = [
   //     { path: 'vedioDetil/:vid', component: () => import('@/views/vedioManage/vedioDetil'), name: 'vedioDetil', meta: { title: '视频列表' }, hidden: true }
   //   ]
   // },
-  {
-    path: '/wechatMenu',
-    component: Layout,
-    redirect: '/wechatMenu/autoReply',
-    name: 'wechatMenu',
-    meta: {
-      title: '微信菜单',
-      icon: 'table'
-    },
-    children: [
-      { path: 'autoReply', component: () => import('@/views/wechatMenu/autoReply'), name: 'autoReply', meta: { title: '自动回复' }},
-      { path: 'customMenu/:id', component: () => import('@/views/wechatMenu/customMenu'), name: 'customMenu', meta: { title: '自定义菜单' }},
-      { path: 'childMenu/:id', component: () => import('@/views/wechatMenu/childMenu'), name: 'childMenu', meta: { title: '自定义子菜单' }, hidden: true }
-    ]
-  }
+  // {
+  //   path: '/wechatMenu',
+  //   component: Layout,
+  //   redirect: '/wechatMenu/autoReply',
+  //   name: 'wechatMenu',
+  //   meta: {
+  //     title: '微信菜单',
+  //     icon: 'table'
+  //   },
+  //   children: [
+  //     { path: 'autoReply', component: () => import('@/views/wechatMenu/autoReply'), name: 'autoReply', meta: { title: '自动回复' }},
+  //     { path: 'customMenu/:id', component: () => import('@/views/wechatMenu/customMenu'), name: 'customMenu', meta: { title: '自定义菜单' }},
+  //     { path: 'childMenu/:id', component: () => import('@/views/wechatMenu/childMenu'), name: 'childMenu', meta: { title: '自定义子菜单' }, hidden: true }
+  //   ]
+  // }
   // { path: '*', redirect: '/404', hidden: true }
 ]
