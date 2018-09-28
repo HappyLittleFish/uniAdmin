@@ -32,18 +32,21 @@
             <el-button
               type="text"
               size="mini"
+              v-permission="'permissionConfig:add'"
               @click="() => append(data)">
               新增
             </el-button>
             <el-button
               type="text"
               size="mini"
+              v-permission="'permissionConfig:edit'"
               @click="() => edit(data)">
               编辑
             </el-button>
             <el-button
               type="text"
               size="mini"
+              v-permission="'permissionConfig:del'"
               @click="() => remove(data)">
               删除
             </el-button>

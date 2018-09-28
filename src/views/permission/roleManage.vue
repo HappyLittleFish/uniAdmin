@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" class="filter-item filter-item-wap" placeholder="角色名称" v-model="listQuery.activityName">
+      <el-input @keyup.enter.native="handleFilter" class="filter-item filter-item-wap" placeholder="角色名称" v-model="listQuery.name">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" style="margin-left: 5px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
@@ -142,13 +142,7 @@ export default {
       listQuery: {
         pageNo: 1,
         pageSize: 10,
-        activityName: undefined,
-        activityStatus: undefined,
-        // status: undefined,
-        orderby: 'id',
-        sort: undefined
-        // title: undefined
-        // importance: undefined,
+        name: undefined
       },
       // importanceOptions: [1, 2, 3],
       calendarTypeOptions,
@@ -168,16 +162,10 @@ export default {
       }],
       showReviewer: false,
       temp: {
-        // id: undefined,
-        // importance: 1,
-        // remark: '',
-        // timestamp: new Date(),
         name: '',
         // roleState: '',
         description: '',
         permissionIds: []
-        // type: '',
-        // status: ''
       },
       dialogFormVisible: false,
       dialogShowUser: false,
@@ -347,7 +335,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        delRole(row)
+        console.log('删除角色参数为', row)
+        delRole([row.id])
         this.$message({
           type: 'success',
           message: '删除成功!',

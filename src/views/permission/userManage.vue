@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" class="filter-item filter-item-wap" placeholder="角色名称" v-model="listQuery.activityName">
+      <el-input @keyup.enter.native="handleFilter" class="filter-item filter-item-wap" placeholder="角色名称" v-model="listQuery.name">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" style="margin-left: 5px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
@@ -33,7 +33,9 @@
         <template slot-scope="scope">
           <el-button  size="small" type="primary" @click="handleUpdate(scope.row)">{{'编辑'}}
           </el-button>
-          <el-button  size="small" type="info" @click="handleforbid(scope.row)">{{'禁用'}}
+          <el-button  v-if="scope.row.available" size="small" type="info" @click="handleforbid(scope.row, 0)">{{'禁用'}}
+          </el-button>
+          <el-button  v-else size="small" type="success" @click="handleforbid(scope.row, 1)">{{'启用'}}
           </el-button>
           <el-button size="small" type="warning" @click="handleResetPassword(scope.row)">{{'重置密码'}}
           </el-button>
@@ -102,13 +104,7 @@ export default {
       listQuery: {
         pageNo: 1,
         pageSize: 10,
-        activityName: undefined,
-        activityStatus: undefined,
-        // status: undefined,
-        orderby: 'id',
-        sort: undefined
-        // title: undefined
-        // importance: undefined,
+        name: undefined
       },
       // importanceOptions: [1, 2, 3],
       calendarTypeOptions,
@@ -260,13 +256,13 @@ export default {
         }
       })
     },
-    handleforbid(row) {
+    handleforbid(row, status) {
       this.resetTemp()
       this.temp = {
         id: row.id,
         name: row.name,
         roleIds: row.roleIds,
-        available: 0
+        available: status
       }
       updateUser(this.temp).then(response => {
         if (response === null) return

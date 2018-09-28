@@ -39,16 +39,6 @@ function filterAsyncRouter(asyncRouterMap, permissionList) {
     let hasPermissionOrNot = false
     for (const item of permissionList) {
       if (item.resourceType === 'menu') {
-        // var hasParams = /^\/(.*)\//
-        // let pathName = ''
-        // let pathChildren = ''
-        // if (hasParams.test(item.url) && !isChildrenOrNot) {
-        //   pathName = '/' + item.url.match(hasParams)[1]
-        //   pathChildren = item.url.substring(pathName.length + 1)
-        // } else {
-        //   pathName = item.url
-        //   pathChildren = item.url
-        // }
         if (route.name === item.label) {
           // console.log('具有权限', item.label)
           if (route.children && route.children.length) {
@@ -65,35 +55,8 @@ function filterAsyncRouter(asyncRouterMap, permissionList) {
             hasPermissionOrNot = true
           }
         }
-
-        // console.log('截取后的url为', pathName, pathChildren)
-        // if (isChildrenOrNot) {
-        //   if (route.path === pathChildren) return true
-        // }
-        // if (route.path === pathName) {
-        //   console.log('拥有这个路由')
-        //   if (pathName === pathChildren) {
-        //     return true
-        //     // console.log('没有子路由')
-        //   } else {
-        //     if (route.hasOwnProperty('children')) {
-        //       // for (child of route.children) {
-        //       //   if (child.path === pathChildren) {
-        //       //     return
-        //       //   }
-        //       // }
-        //       route.children = filterAsyncRouter(route.children, permissionList, true)
-        //     }
-        //   }
-        // }
       }
     }
-    // if (hasPermission(roles, route)) {
-    //   if (route.children && route.children.length) {
-    //     route.children = filterAsyncRouter(route.children, roles)
-    //   }
-    //   return true
-    // }
     return hasPermissionOrNot
   })
   return accessedRouters

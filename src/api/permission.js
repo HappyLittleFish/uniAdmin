@@ -58,7 +58,7 @@ export function addRole(params) {
 
 export function delRole(params) {
   return request({
-    url: '/role/roleDelete',
+    url: '/role/roleDel',
     method: 'post',
     data: params
   })
