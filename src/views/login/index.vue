@@ -63,6 +63,8 @@ export default {
       pwdType: 'password'
     }
   },
+  created() {
+  },
   methods: {
     showPwd() {
       if (this.pwdType === 'password') {
@@ -79,6 +81,11 @@ export default {
             this.loading = true
             console.log('登录成功', res)
             this.$router.push({ path: '/' })
+            // this.$store.dispatch('GetInfo').then(() => {
+            //   this.loading = true
+            //   console.log('登录成功', res)
+            //   this.$router.push({ path: '/' })
+            // })
           }).catch(() => {
             this.loading = false
           })
