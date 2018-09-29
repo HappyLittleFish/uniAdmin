@@ -241,6 +241,7 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
+          this.temp.password = '123456'
           addUser(this.temp).then(response => {
             if (response === null) return
             console.log('新增数据成功', response)
