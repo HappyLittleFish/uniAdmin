@@ -48,11 +48,10 @@ const user = {
     // 登录
     Login({ commit }, userInfo) {
       const username = userInfo.username.trim()
-      console.log('用户账号密码', userInfo)
+      // console.log('用户账号密码', userInfo)
       return new Promise((resolve, reject) => {
         login({ userName: username, userPwd: userInfo.password }).then(response => {
           const data = response.data
-          console.log('用户信息', response)
           // console.log('用户信息', response)
           // commit('SET_TOKEN', data.token)
           setToken(data.token)
@@ -69,13 +68,15 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        console.log('用户userId为', getUserId())
+        // console.log('用户userId为', getUserId())
         const userId = getUserId()
         queryPermissionByUserId({ userId }).then(response => {
-          // console.log('查询到用户的菜单权限列表为', response.data)
-
+          // console.log('查询到用户的权限列表为', response.data)
+          if (!response.data.length) {
+            reject('用户没有访问权限')
+          }
           commit('SET_PERMISSIONLIST', response.data)
-          console.log('获取存入store的用户权限列表', state.permissionList)
+          // console.log('获取存入store的用户权限列表', state.permissionList)
           resolve()
         }).catch(error => {
           reject(error)

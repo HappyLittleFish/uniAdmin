@@ -15,17 +15,16 @@
       <el-button class="filter-item" v-permission="'permissionConfig:add'" style="margin-left: 5px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
     </div>
 
-    <div class="block">
+    <div class="block"> 
       <el-tree
         :data="list"
         :props="props"
         node-key="id"
-        default-expand-all
         :expand-on-click-node="false"
         :filter-node-method="filterNode"
         :check-on-click-node="true"
         :highlight-current="true"
-        ref="tree2">
+        ref="tree">
         <span class="custom-tree-node" slot-scope="{ node, data }">
           <span>{{ node.label }}</span>
           <span>
@@ -60,24 +59,18 @@
         <el-form-item required label="权限名称" prop="name">
           <el-input v-model="temp.name"></el-input>
         </el-form-item>
-        <el-form-item required label="权限标识" prop="label">
-          <el-input v-model="temp.label"></el-input>
-        </el-form-item>
         <el-form-item required label="资源类型">
           <el-select class="filter-item" v-model="temp.resourceType" placeholder="请选择">
             <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item required label="资源路径" prop="url">
-          <el-input v-model="temp.url"></el-input>
-        </el-form-item>
-        <el-form-item required label="权限描述" prop="permission" placeholder="格式为：页面名称:功能">
+        <el-form-item required label="权限标识" prop="permission" placeholder="格式为：页面名称:功能">
           <el-input v-model="temp.permission"></el-input>
         </el-form-item>
-        <el-form-item required label="父编号" prop="parentId">
+        <!-- <el-form-item required label="父编号" prop="parentId">
           <el-input v-model="temp.parentId"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item required label="是否启用">
           <el-select class="filter-item" v-model="temp.available" placeholder="请选择">
             <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
@@ -148,7 +141,7 @@ export default {
   },
   watch: {
     filterText(val) {
-      this.$refs.tree2.filter(val)
+      this.$refs.tree.filter(val)
     }
   },
   computed: {
@@ -158,14 +151,14 @@ export default {
   },
   created() {
     this.getList()
-    console.log('此页面用户权限', this.permissionList)
+    // console.log('此页面用户权限', this.permissionList)
   },
   methods: {
     getList() {
       this.listLoading = true
-      console.log('请求的参数为', this.listQuery)
+      // console.log('请求的参数为', this.listQuery)
       getPermissionList(this.listQuery).then(response => {
-        console.log('list数据为', response)
+        // console.log('list数据为', response)
         this.list = response.data
 
         // Just to simulate the time of the request
@@ -185,10 +178,10 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          console.log('新添加的数据为', this.temp)
+          // console.log('新添加的数据为', this.temp)
           permissionAdd(this.temp).then(response => {
             if (response === null) return
-            console.log('新增数据成功', response)
+            // console.log('新增数据成功', response)
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
@@ -204,13 +197,12 @@ export default {
       })
     },
     updateData() {
-      console.log('更新数据')
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          console.log('更新的参数为', this.temp)
+          // console.log('更新的参数为', this.temp)
           permissionUpdate(this.temp).then(response => {
             if (response === null) return
-            console.log('更新数据成功', response)
+            // console.log('更新数据成功', response)
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
@@ -228,14 +220,14 @@ export default {
     // 新增权限
     append(data) {
       this.dialogStatus = 'create'
-      console.log('当前节点数据为', data)
+      // console.log('当前节点数据为', data)
       this.temp.parentId = data.id
       this.temp.url = data.url
       this.dialogFormVisible = true
     },
     // 编辑权限
     edit(data) {
-      console.log('编辑的数据为', data)
+      // console.log('编辑的数据为', data)
       this.dialogStatus = 'Edit'
       this.temp = data
       this.dialogFormVisible = true
@@ -277,10 +269,9 @@ export default {
         label: ''
       }
     },
-
     filterNode(value, data) {
       if (!value) return true
-      return data.label.indexOf(value) !== -1
+      return data.name.indexOf(value) !== -1
     }
   }
 }

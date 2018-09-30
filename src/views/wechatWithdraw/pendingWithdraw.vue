@@ -165,9 +165,9 @@ export default {
       this.listLoading = true
       // console.log('请求的参数为', this.listQuery)
       getWechatWithdrawList(this.listQuery).then(response => {
-        console.log('list数据为', response)
+        // console.log('list数据为', response)
         this.list = response.list
-        console.log('list数据是什么', this.list)
+        // console.log('list数据是什么', this.list)
         // this.total = response.data.total
 
         // Just to simulate the time of the request

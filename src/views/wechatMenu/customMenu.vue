@@ -94,7 +94,7 @@ export default {
     updateList() {
       this.dialogFormVisible = false
       updateWechatMenuList(this.form).then(response => {
-        console.log('打印数据' + response)
+        // console.log('打印数据' + response)
         this.getData()
       })
     },
@@ -103,7 +103,7 @@ export default {
       if (ids.length === 0) return
       this.dialogFormVisible = false
       delWechatMenuList(ids).then(response => {
-        console.log('打印数据' + response)
+        // console.log('打印数据' + response)
         this.getData()
       })
     },
@@ -112,13 +112,13 @@ export default {
       this.dialogFormVisible = false
 
       addWechatMenuList(this.form).then(response => {
-        console.log('打印数据' + response)
+        // console.log('打印数据' + response)
         this.getData()
       })
     },
     getData() {
       getWechatMenuList({ pageNo: this.pageNo, pageSize: 10, parentId: 0 }).then(response => {
-        console.log('list数据为', response)
+        // console.log('list数据为', response)
         // console.log('list数据是什么', this.list)
         // this.total = response.data.total
         this.tableData4 = response.list
@@ -129,13 +129,13 @@ export default {
       })
     },
     handleEdit(index, row) {
-      console.log(index, row)
+      // console.log(index, row)
       this.dialogFormVisible = true
       this.condition = 'update'
       this.form.id = row.id
     },
     handleDelete(index, row) {
-      console.log(index, row)
+      // console.log(index, row)
       // this.$router.push({ path: `/wechatMenu/childMenu/${row.id}` })
       this.$router.push({ name: 'childMenu', params: { id: row.id, type: row.type }})
 
@@ -143,15 +143,15 @@ export default {
       // this.delList(ids)
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
+      // console.log(`每页 ${val} 条`)
       this.getData()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
+      // console.log(`当前页: ${val}`)
       this.getData()
     },
     handleSelectionChange(val) {
-      console.log(val)
+      // console.log(val)
       this.ids = []
       for (const key in val) {
         this.ids.push(val[key].id)

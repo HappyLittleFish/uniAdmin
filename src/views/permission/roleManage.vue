@@ -57,7 +57,6 @@
                 :props="props"
                 node-key="id"
                 show-checkbox
-                default-expand-all
                 :expand-on-click-node="false"
                 :check-on-click-node="true"
                 :highlight-current="true"
@@ -76,7 +75,7 @@
     <el-dialog
       title="用户列表"
       :visible.sync="dialogShowUser"
-      width="40%">
+      width="25%">
       <el-table :key='tableKey' :data="userList" v-loading="listLoading" border fit highlight-current-row
       style="width: 100%;">
       <el-table-column align="center" :label="$t('table.id')" width="65">
@@ -100,10 +99,6 @@
         </template>
       </el-table-column> -->
     </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
     </el-dialog>
 
   </div>
@@ -200,6 +195,7 @@ export default {
   },
   created() {
     this.getList()
+    this.getPermissionList()
   },
   computed: {
     // currentStatus() {
@@ -209,9 +205,9 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      console.log('请求的参数为', this.listQuery)
+      // console.log('请求的参数为', this.listQuery)
       getRoleList(this.listQuery).then(response => {
-        console.log('list数据为', response)
+        // console.log('list数据为', response)
         this.list = response.list
         this.total = response.total
 
@@ -223,7 +219,7 @@ export default {
     },
     getPermissionList() {
       getPermissionList(this.listQuery).then(response => {
-        console.log('list数据为', response)
+        // console.log('所有权限list数据为', response.data)
         this.permissionlist = response.data
         // Just to simulate the time of the request
         setTimeout(() => {
@@ -257,9 +253,57 @@ export default {
         permissionIds: []
       }
     },
+    isInArray(arr, value) {
+      for (var i = 0; i < arr.length; i++) {
+        if (value === arr[i]) {
+          return true
+        }
+      }
+      return false
+    },
+    checkHasAllChildren(arr) {
+      // console.log('用户权限IDs为', arr)
+      // console.log('所有权限列表为', this.permissionlist)
+      var permissionIds = arr.filter(item => {
+        var hasAllChildrenOrNot = false
+        for (const key of this.permissionlist) {
+          if (key.id === item) {
+            if (key.children && key.children.length) {
+              for (const value1 of key.children) {
+                if (!this.isInArray(arr, value1.id)) {
+                  break
+                }
+              }
+              break
+            } else {
+              hasAllChildrenOrNot = true
+              break
+            }
+          } else if (key.children && key.children.length) {
+            for (const value2 of key.children) {
+              if (value2.id === item) {
+                if (value2.children && value2.children.length) {
+                  for (const value3 of value2.children) {
+                    if (!this.isInArray(arr, value3.id)) {
+                      break
+                    }
+                  }
+                  break
+                } else {
+                  hasAllChildrenOrNot = true
+                  break
+                }
+              }
+            }
+          }
+        }
+        return hasAllChildrenOrNot
+      })
+      return permissionIds
+    },
     handleCreate() {
       this.resetTemp()
-      this.getPermissionList()
+      // this.getPermissionList()
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -269,16 +313,12 @@ export default {
     },
     createData() {
       this.temp.permissionIds = this.$refs.tree.getCheckedKeys()
-      console.log(this.$refs.tree.getCheckedKeys())
+      // console.log(this.$refs.tree.getCheckedKeys())
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          // this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-          // this.temp.author = 'vue-element-admin'
-          // console.log('新添加的数据为1', this.$refs['dataForm'])
-          console.log('新添加的数据为2', this.temp)
           addRole(this.temp).then(response => {
             if (response === null) return
-            console.log('新增数据成功', response)
+            // console.log('新增数据成功', response)
             this.dialogFormVisible = false
             this.resetTemp()
             this.$notify({
@@ -294,12 +334,14 @@ export default {
     },
     handleUpdate(row) {
       // const rowData = row
-      console.log('数据为', row)
-      console.log('权限数组为', row.permissionIds)
-      this.getPermissionList()
+      // console.log('数据为', row)
+      // console.log('权限数组为', row.permissionIds)
+      // this.getPermissionList()
       this.temp = row
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
+      row.permissionIds = this.checkHasAllChildren(row.permissionIds)
+      // console.log('判断之后的IDs为', row.permissionIds)
       this.$nextTick(() => {
         this.$refs.tree.setCheckedKeys(row.permissionIds)
         this.$refs['dataForm'].clearValidate()
@@ -310,11 +352,12 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           // const tempData = Object.assign({}, this.temp)
+          // console.log('更新角色权限的参数为', this.temp)
 
           // tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
           updateRole(this.temp).then(response => {
             if (response === null) return
-            console.log('修改成功', response)
+            // console.log('修改成功', response)
             this.dialogFormVisible = false
             this.resetTemp()
             this.$notify({
@@ -329,13 +372,13 @@ export default {
       })
     },
     handleDelete(row) {
-      console.log('删除的数据为', row.id)
+      // console.log('删除的数据为', row.id)
       this.$confirm('此操作将永久删除权限, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        console.log('删除角色参数为', row)
+        // console.log('删除角色参数为', row)
         delRole([row.id])
         this.$message({
           type: 'success',
@@ -352,7 +395,7 @@ export default {
     handleGetUserList(data) {
       this.dialogShowUser = true
       getUserListByRoleId({ id: data.id }).then((res) => {
-        console.log('用户列表为', res)
+        // console.log('用户列表为', res)
         this.userList = res.data
       })
     },

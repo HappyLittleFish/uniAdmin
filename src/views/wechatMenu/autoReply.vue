@@ -186,25 +186,25 @@ export default {
   },
   methods: {
     selectOption(row) {
-      console.log('row', row)
+      // console.log('row', row)
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
+      // console.log(`每页 ${val} 条`)
       this.getList()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
+      // console.log(`当前页: ${val}`)
       this.getList()
     },
     handleSelectionChange(val) {
-      console.log(val)
+      // console.log(val)
       this.ids = []
       for (const key in val) {
         this.ids.push(val[key].id)
       }
     },
     addList() {
-      console.log('添加回复')
+      // console.log('添加回复')
       this.$refs['form'].validate((valid) => {
         if (valid) {
           if (this.form.value === 1) {
@@ -226,7 +226,7 @@ export default {
     },
 
     updateList(form) {
-      console.log('修改列表')
+      // console.log('修改列表')
 
       this.$refs['form'].validate((valid) => {
         if (valid) {
@@ -249,7 +249,7 @@ export default {
     },
 
     handleEdit(index, row) {
-      console.log(index, row)
+      // console.log(index, row)
       this.condition = 'update'
       this.dialogFormVisible = true
       this.form.id = row.id
@@ -265,7 +265,7 @@ export default {
       }
     },
     handleDelete(index, row) {
-      console.log(index, row)
+      // console.log(index, row)
       this.ids = [row.id]
       if (this.ids.length === 0) return
       this.$confirm('是否删除?', '提示', {
@@ -288,7 +288,7 @@ export default {
       })
     },
     search() {
-      console.log('搜索')
+      // console.log('搜索')
       wechatMsgReplyList({ pageNo: this.pageNo, pageSize: 10, requestContent: this.input1, title: this.input2 }).then(response => {
         this.tableData = response.list
         this.total = response.total
@@ -315,8 +315,8 @@ export default {
       })
     },
     handleClick(tab, event) {
-      console.log('tab-content', tab)
-      console.log('tab-event', event)
+      // console.log('tab-content', tab)
+      // console.log('tab-event', event)
       this.titleName = tab.$options.propsData.label
     },
     deleteRow(index, rows) {

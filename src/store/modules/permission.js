@@ -9,17 +9,17 @@ function filterAsyncRouter(routerMap, permissionList) {
     let hasPermissionOrNot = false
     for (const item of permissionList) {
       if (item.resourceType === 'menu') {
-        if (route.name === item.label) {
+        if (route.meta.permission === item.permission) {
           // console.log('具有权限', item.label)
           if (route.children && route.children.length) {
             route.children = filterAsyncRouter(route.children, item.children)
             if (route.children.length) {
-              console.log('父路由满足子路由满足', route.children)
+              // console.log('父路由满足子路由满足', route.children)
               hasPermissionOrNot = true
               return true
             }
           } else {
-            console.log('没有子路由父路由满足', route)
+            // console.log('没有子路由父路由满足', route)
             hasPermissionOrNot = true
             return true
           }
@@ -51,10 +51,10 @@ const permission = {
         let accessedRouters = []
         // console.log('过滤前路由', asyncRouterMap)
         // var routerMap = deepClone(asyncRouterMap)
-        // console.log('过滤前路由', routerMap)
+        // console.log('过滤前路由', asyncRouterMap)
         accessedRouters = filterAsyncRouter(asyncRouterMap, permissionList)
         // accessedRouters = filterAsyncRouter(asyncRouterMap, [])
-        console.log('过滤后路由', accessedRouters)
+        // console.log('过滤后路由', accessedRouters)
         commit('SET_ROUTERS', accessedRouters)
         resolve()
       })

@@ -76,10 +76,10 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
+          // this.loading = true
           this.$store.dispatch('Login', this.loginForm).then(res => {
-            this.loading = true
-            console.log('登录成功', res)
+            // this.loading = true
+            // console.log('登录成功', res)
             this.$router.push({ path: '/' })
             // this.$store.dispatch('GetInfo').then(() => {
             //   this.loading = true

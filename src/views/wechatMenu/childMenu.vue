@@ -98,7 +98,7 @@ export default {
         if (valid) {
           this.dialogFormVisible = false
           updateWechatMenuList(this.form).then(response => {
-            console.log('打印数据' + response)
+            // console.log('打印数据' + response)
             this.getData()
           })
         } else {
@@ -121,7 +121,7 @@ export default {
       }).then(() => {
         this.dialogFormVisible = false
         delWechatMenuList(ids).then(response => {
-          console.log('打印数据' + response)
+          // console.log('打印数据' + response)
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -143,7 +143,7 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           addWechatMenuList(this.form).then(response => {
-            console.log('打印数据' + response)
+            // console.log('打印数据' + response)
             this.dialogFormVisible = false
 
             this.getData()
@@ -156,10 +156,10 @@ export default {
     },
     getData() {
       getWechatMenuList({ pageNo: this.pageNo, pageSize: 10, parentId: this.$route.params.id }).then(response => {
-        console.log('list数据为', response)
+        // console.log('list数据为', response)
         // console.log('list数据是什么', this.list)
         // this.total = response.data.total
-        console.log('route', this.$route)
+        // console.log('route', this.$route)
 
         this.tableData4 = response.list
         this.total = response.total
@@ -169,7 +169,7 @@ export default {
       })
     },
     handleEdit(index, row) {
-      console.log(index, row)
+      // console.log(index, row)
       this.dialogFormVisible = true
       this.condition = 'update'
       this.form.id = row.id
@@ -182,20 +182,20 @@ export default {
       this.form.type = row.type
     },
     handleDelete(index, row) {
-      console.log(index, row)
+      // console.log(index, row)
       var ids = [row.id]
       this.delList(ids)
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
+      // console.log(`每页 ${val} 条`)
       this.getData()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
+      // console.log(`当前页: ${val}`)
       this.getData()
     },
     handleSelectionChange(val) {
-      console.log(val)
+      // console.log(val)
       this.ids = []
       for (const key in val) {
         this.ids.push(val[key].id)

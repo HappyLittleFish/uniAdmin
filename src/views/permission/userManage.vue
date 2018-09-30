@@ -21,7 +21,7 @@
       </el-table-column>
       <el-table-column min-width="210px" align="center" label="拥有角色">
         <template slot-scope="scope">
-          <el-tag style="margin-right:6px" v-for="item in roleList" :key="item.id" v-if="isInArray(scope.row.roleIds,item.id)">{{item.description}}</el-tag>
+          <el-tag style="margin-right:6px" v-for="item in roleList" :key="item.id" v-if="isInArray(scope.row.roleIds,item.id)">{{item.name}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" :label="$t('table.status')" width="130px">
@@ -57,7 +57,7 @@
         </el-form-item>
         <el-form-item  required label="赋予角色">
           <el-checkbox-group v-model="roleChecked" @change="changeCheckBox">
-            <el-checkbox v-for="item in roleList" :label="item.id" v-if="item.available" :key="item.id">{{item.description}}</el-checkbox>
+            <el-checkbox v-for="item in roleList" :label="item.id" v-if="item.available" :key="item.id">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -175,7 +175,7 @@ export default {
       this.listLoading = true
       // console.log('请求的参数为', this.listQuery)
       getUserList(this.listQuery).then(response => {
-        console.log('用户列表为', response)
+        // console.log('用户列表为', response)
         this.list = response.list
         this.total = response.total
 
@@ -230,6 +230,7 @@ export default {
     handleCreate() {
       this.resetTemp()
       this.dialogStatus = 'create'
+      this.roleChecked = []
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
@@ -244,7 +245,7 @@ export default {
           this.temp.password = '123456'
           addUser(this.temp).then(response => {
             if (response === null) return
-            console.log('新增数据成功', response)
+            // console.log('新增数据成功', response)
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
@@ -277,30 +278,27 @@ export default {
       })
     },
     handleUpdate(row) {
-      // const rowData = row
       this.resetTemp()
-      console.log('数据为', row)
+      // console.log('数据为', row)
       this.temp.name = row.name
       this.temp.id = row.id
       this.dialogStatus = 'update'
       this.roleChecked = row.roleIds
       this.dialogFormVisible = true
       this.$nextTick(() => {
-        // this.temp.roles = []
         this.$refs['dataForm'].clearValidate()
       })
     },
     updateData() {
-      console.log('temp值为', this.temp)
+      // console.log('temp值为', this.temp)
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           // const tempData = Object.assign({}, this.temp)
-          console.log('更新参数为', this.temp)
+          // console.log('更新参数为', this.temp)
 
-          // tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
           updateUser(this.temp).then(response => {
             if (response === null) return
-            console.log('修改成功', response)
+            // console.log('修改成功', response)
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
@@ -314,7 +312,7 @@ export default {
       })
     },
     handleDelete(row) {
-      console.log('删除的数据为', row.id)
+      // console.log('删除的数据为', row.id)
       this.$confirm('此操作将永久删除用户, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

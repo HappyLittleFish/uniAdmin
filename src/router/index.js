@@ -58,11 +58,12 @@ export const asyncRouterMap = [
     name: 'wechatWithdraw',
     meta: {
       title: '微信提现',
-      icon: 'money'
+      icon: 'money',
+      permission: 'wechatWithdraw:view'
     },
     children: [
-      { path: 'pendingWithdraw', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现' }},
-      { path: 'withdrawRecord', component: () => import('@/views//wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录' }}
+      { path: 'pendingWithdraw', component: () => import('@/views/wechatWithdraw/pendingWithdraw'), name: 'pendingWithdraw', meta: { title: '待处理提现', permission: 'pendingWithdraw:view' }},
+      { path: 'withdrawRecord', component: () => import('@/views//wechatWithdraw/withdrawRecord'), name: 'withdrawRecord', meta: { title: '提现记录', permission: 'withdrawRecord:view' }}
     ]
   },
   {
@@ -72,12 +73,13 @@ export const asyncRouterMap = [
     name: 'permission',
     meta: {
       title: '权限管理',
-      icon: 'user'
+      icon: 'user',
+      permission: 'permission:view'
     },
     children: [
-      { path: 'permissionConfig', component: () => import('@/views/permission/permissionConfig'), name: 'permissionConfig', meta: { title: '权限配置' }},
-      { path: 'roleManage', component: () => import('@/views/permission/roleManage'), name: 'roleManage', meta: { title: '角色管理' }},
-      { path: 'userManage', component: () => import('@/views/permission/userManage'), name: 'userManage', meta: { title: '用户管理' }}
+      { path: 'permissionConfig', component: () => import('@/views/permission/permissionConfig'), name: 'permissionConfig', meta: { title: '权限配置', permission: 'permissionConfig:view' }},
+      { path: 'roleManage', component: () => import('@/views/permission/roleManage'), name: 'roleManage', meta: { title: '角色管理', permission: 'roleManage:view' }},
+      { path: 'userManage', component: () => import('@/views/permission/userManage'), name: 'userManage', meta: { title: '用户管理', permission: 'userManage:view' }}
     ]
   },
   // {
@@ -160,12 +162,13 @@ export const asyncRouterMap = [
     name: 'wechatMenu',
     meta: {
       title: '微信菜单',
-      icon: 'table'
+      icon: 'table',
+      permission: 'wechatMenu:view'
     },
     children: [
-      { path: 'autoReply', component: () => import('@/views/wechatMenu/autoReply'), name: 'autoReply', meta: { title: '自动回复' }},
-      { path: 'customMenu/:id', component: () => import('@/views/wechatMenu/customMenu'), name: 'customMenu', meta: { title: '自定义菜单' }},
-      { path: 'childMenu/:id', component: () => import('@/views/wechatMenu/childMenu'), name: 'childMenu', meta: { title: '自定义子菜单' }, hidden: true }
+      { path: 'autoReply', component: () => import('@/views/wechatMenu/autoReply'), name: 'autoReply', meta: { title: '自动回复', permission: 'autoReply:view' }},
+      { path: 'customMenu/:id', component: () => import('@/views/wechatMenu/customMenu'), name: 'customMenu', meta: { title: '自定义菜单', permission: 'customMenu:view' }},
+      { path: 'childMenu/:id', component: () => import('@/views/wechatMenu/childMenu'), name: 'childMenu', meta: { title: '自定义子菜单', permission: 'childMenu:view' }, hidden: true }
     ]
   }
   // { path: '*', redirect: '/404', hidden: true }
